@@ -8,11 +8,11 @@ extends CharacterBody3D
 @onready var slide_collision: CollisionShape3D = $CollisionShape3D2
 @onready var dashing_time: Timer = $dash_time
 @onready var shake_time: Timer = $shake_time
-@onready var dashes_ui: RichTextLabel = $"../../Control/DASHES"
-@onready var hp_ui: RichTextLabel = $"../../Control/HP"
-@onready var speed: TextureProgressBar = $"../../Control/SPEED"
-@onready var control_ui: Control = $"../../Control"
-@onready var speedlines: ColorRect = $"../../speedlines"
+@onready var dashes_ui: RichTextLabel = $"../../../Control/DASHES"
+@onready var hp_ui: RichTextLabel = $"../../../Control/HP"
+@onready var speed: TextureProgressBar = $"../../../Control/SPEED"
+@onready var control_ui: Control = $"../../../Control"
+@onready var speedlines: ColorRect = $"../../../speedlines"
 
 var hp = 100
 var SPEED = 10.0
@@ -33,15 +33,20 @@ var is_sliding = false
 var OG_HEAD_Y = 0
 var is_moving = false
 var INIT_POS = Vector3.ZERO
-var tween = create_tween()
 
+func _enter_tree() -> void:
+	set_multiplayer_authority(str(name).to_int())
+	
 func _ready() -> void:
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	print('kk')
+	#camera.current = is_multiplayer_authority()
 	OG_HEAD_Y = head.position.y
 	INIT_POS = position
-	tween = create_tween()
-	
+	#if is_multiplayer_authority():
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
 func _input(event: InputEvent) -> void:
+	#if !is_multiplayer_authority(): return
 	if event is InputEventMouseMotion:
 
 		rotate_y(-deg_to_rad(event.relative.x * SENS))
@@ -49,7 +54,7 @@ func _input(event: InputEvent) -> void:
 		head.rotation.x = clamp(head.rotation.x, deg_to_rad(-60), deg_to_rad(60))
 	
 	if event.is_action_pressed("attack"):
-		
+	
 		if animation_player.current_animation == "slash1":
 				animation_player.stop()
 				animation_player.play("slash2")
@@ -63,7 +68,11 @@ func _input(event: InputEvent) -> void:
 			
 		animation_player.play("block")
 
+
+
 func _physics_process(delta: float) -> void:
+	#if !is_multiplayer_authority(): return
+
 	move_and_slide()
 
 	if not is_on_floor():
@@ -108,8 +117,12 @@ func _physics_process(delta: float) -> void:
 		speedlines.visible = false
 	
 	if Input.is_action_just_pressed("ui_cancel"):
-		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
+			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 		
+		else:
+			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
 	
 	if Input.is_action_pressed("jump") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
@@ -166,6 +179,7 @@ func _physics_process(delta: float) -> void:
 	
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	animation_player.play("RESET")
+	
 func _on_dash_refill_timer_timeout() -> void:
 	
 	if cur_dashes < MAX_DASHES:
