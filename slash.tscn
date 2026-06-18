@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3 uid="uid://pyp50ugf8td7"]
+
+[ext_resource type="PackedScene" uid="uid://b4n6gxklxuhib" path="res://slash/attack_slashes.glb" id="1_bf50k"]
+
+[node name="Sketchfab_Scene" instance=ExtResource("1_bf50k")]
+
+[node name="Circle_005" parent="Sketchfab_model/b90b2bbc74e14047aff56d6731ae9360_fbx/RootNode" index="0"]
+visible = false
+
+[node name="Circle_003" parent="Sketchfab_model/b90b2bbc74e14047aff56d6731ae9360_fbx/RootNode" index="2"]
+visible = false
+
+[node name="Circle_002" parent="Sketchfab_model/b90b2bbc74e14047aff56d6731ae9360_fbx/RootNode" index="3"]
+visible = false
+
+[node name="Circle_001" parent="Sketchfab_model/b90b2bbc74e14047aff56d6731ae9360_fbx/RootNode" index="4"]
+visible = false
+
+[node name="Circle" parent="Sketchfab_model/b90b2bbc74e14047aff56d6731ae9360_fbx/RootNode" index="5"]
+visible = false

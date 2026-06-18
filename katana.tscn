@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://bdsk6f5ft8ipm"]
+
+[ext_resource type="PackedScene" uid="uid://bv4fqq05upb0g" path="res://KatanaForZIP.glb" id="1_okte2"]
+
+[node name="KatanaForZIP" instance=ExtResource("1_okte2")]
+
+[node name="Empty" parent="." index="0"]
+visible = false
+
+[node name="Cube_008" parent="." index="13"]
+visible = false
