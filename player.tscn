@@ -8,20 +8,15 @@
 [ext_resource type="PackedScene" uid="uid://c54l3yx7hk4x0" path="res://katanaa.tscn" id="6_ivps1"]
 [ext_resource type="Shader" uid="uid://iid5us4f2ve8" path="res://outline.gdshader" id="7_urp6f"]
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_1jxqw"]
-properties/0/path = NodePath(".:position")
-properties/0/spawn = true
-properties/0/replication_mode = 1
-properties/1/path = NodePath("Head/hand/AnimationPlayer:current_animation")
-properties/1/spawn = true
-properties/1/replication_mode = 1
-
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_h2yge"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1bvp3"]
 height = 1.27662
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_n7ghd"]
+
 [sub_resource type="BoxMesh" id="BoxMesh_h2yge"]
+material = SubResource("ShaderMaterial_n7ghd")
 size = Vector3(0.3, 0.3, 2)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_w48qg"]
@@ -186,7 +181,7 @@ tracks/3/keys = {
 
 [sub_resource type="Animation" id="Animation_w48qg"]
 resource_name = "slash1"
-length = 1.8
+length = 2.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -194,10 +189,10 @@ tracks/0/path = NodePath("..:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.54, 1.03333, 1.73333),
-"transitions": PackedFloat32Array(0.34151, 0.482968, 1.56917, 0.34151),
+"times": PackedFloat32Array(0, 0.36, 0.533333, 1.86666),
+"transitions": PackedFloat32Array(0.34151, 0.554785, 2.92817, 0.34151),
 "update": 0,
-"values": [Vector3(0.949586, -0.823269, -0.277224), Vector3(0.949586, -0.823268, -0.43634), Vector3(0.949586, -0.823269, -0.277224), Vector3(0.949586, -0.823269, -0.277224)]
+"values": [Vector3(0.808098, -0.823269, -0.87875), Vector3(0.808009, -0.823026, -0.410205), Vector3(0.808, -0.823, 0), Vector3(0.949586, -0.823269, -0.277224)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -206,10 +201,10 @@ tracks/1/path = NodePath("..:rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.21, 0.54, 1.03333, 1.73333),
-"transitions": PackedFloat32Array(3.13834, 1, 0.482968, 1.56917, 3.13834),
+"times": PackedFloat32Array(0, 0.533333, 1.86666),
+"transitions": PackedFloat32Array(3.13834, 2.92817, 3.13834),
 "update": 0,
-"values": [Vector3(0.0268824, -0.161406, -0.237278), Vector3(-0.0205613, 0.162324, 2.8656), Vector3(0.615637, 0.995112, 2.90943), Vector3(0.615637, 0.995112, 2.90943), Vector3(0.0268824, -0.161406, -0.237278)]
+"values": [Vector3(0.22192, 0.890744, -0.690477), Vector3(-0.511381, -1.06465, 0.0942478), Vector3(0.0268824, -0.161406, -0.237278)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -218,10 +213,10 @@ tracks/2/path = NodePath(".:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.5, 1.03333, 1.36667, 1.73558),
-"transitions": PackedFloat32Array(0.34151, 3.86375, 1.10957, 1.1487, 1),
+"times": PackedFloat32Array(0, 0.533333, 1.86667),
+"transitions": PackedFloat32Array(0.34151, 2.92817, 0.34151),
 "update": 0,
-"values": [Vector3(-1.43666, -0.375234, -0.380045), Vector3(-0.11934, -0.567464, -2.20741), Vector3(-0.11934, -0.567464, -2.20741), Vector3(-0.97, -0.473, -1.82), Vector3(-1.4584, -0.293428, -0.410761)]
+"values": [Vector3(-1.073, -0.167, -2.063), Vector3(-0.753, -0.167, -2.143), Vector3(-1.43666, -0.375234, -0.380045)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -230,10 +225,10 @@ tracks/3/path = NodePath(".:rotation")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.5, 1.03333, 1.73558),
-"transitions": PackedFloat32Array(0.34151, 3.86375, 1.56917, 1),
+"times": PackedFloat32Array(0, 0.533333, 1.86667),
+"transitions": PackedFloat32Array(0.34151, 2.92817, 0.34151),
 "update": 0,
-"values": [Vector3(0.254494, -1.5447, -1.19133), Vector3(0.482431, 2.94726, -0.847861), Vector3(0.482431, 2.94726, -0.847861), Vector3(0.29147, 4.72635, -0.839503)]
+"values": [Vector3(0.267035, -2.69828, -0.605629), Vector3(0.267035, -2.86409, -0.605629), Vector3(0.254494, -1.5447, -1.19133)]
 }
 
 [sub_resource type="Animation" id="Animation_2cqfq"]
@@ -309,9 +304,6 @@ size = Vector2(2, 2)
 [node name="player" type="CharacterBody3D"]
 script = ExtResource("1_1jxqw")
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_1jxqw")
-
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.77167, 0)
 shape = SubResource("CapsuleShape3D_h2yge")
@@ -331,7 +323,6 @@ skeleton = NodePath("../..")
 
 [node name="trail" type="GPUParticles3D" parent="Head/hand"]
 transform = Transform3D(-0.0645966, -0.565198, -0.209984, -0.782683, 0.0121698, 0.045346, -0.390389, 0.0790691, -0.068354, -1.33836, 0.0461617, -0.662615)
-visible = false
 amount = 70
 lifetime = 70.0
 explosiveness = 1.0
@@ -383,6 +374,12 @@ one_shot = true
 wait_time = 0.1
 one_shot = true
 
+[node name="hitstop_time" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
+ignore_time_scale = true
+
 [connection signal="animation_finished" from="Head/hand/AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="timeout" from="dash_refill_timer" to="." method="_on_dash_refill_timer_timeout"]
 [connection signal="timeout" from="dash_time" to="." method="_on_dash_time_timeout"]
+[connection signal="timeout" from="hitstop_time" to="." method="_on_hitstop_time_timeout"]

@@ -1,28 +1,55 @@
-[gd_scene load_steps=25 format=3 uid="uid://ukkkx2tuiuap"]
+[gd_scene load_steps=27 format=3 uid="uid://ukkkx2tuiuap"]
 
 [ext_resource type="Texture2D" uid="uid://ctficqmxak4fq" path="res://texture_01.png" id="1_h2yge"]
 [ext_resource type="Script" uid="uid://behjlat7mkp4c" path="res://main.gd" id="1_ycdy4"]
 [ext_resource type="Script" uid="uid://m1103wwypse" path="res://world.gd" id="2_dg77c"]
-[ext_resource type="PackedScene" uid="uid://cq8ohth4n74jn" path="res://player.tscn" id="2_kek77"]
+[ext_resource type="Shader" uid="uid://cdqt70k87jsp6" path="res://holo.gdshader" id="4_4c57u"]
 [ext_resource type="FontFile" uid="uid://db0gd5csnvc2k" path="res://healzone-by-thUg-inc.ttf" id="5_lquwl"]
 [ext_resource type="Texture2D" uid="uid://nbhkmoxchyf4" path="res://Asset 11.png" id="6_272bh"]
-[ext_resource type="Script" uid="uid://dp4gyt2f1q6sc" path="res://server_button.gd" id="6_efxa6"]
 [ext_resource type="Texture2D" uid="uid://cbbtcfq8sx84i" path="res://Asset 10.png" id="7_5vw27"]
-[ext_resource type="Script" uid="uid://dkofswq4ighjv" path="res://client_button.gd" id="7_dg77c"]
 [ext_resource type="Shader" uid="uid://dosqha2thsvk2" path="res://lines.gdshader" id="8_5vw27"]
-[ext_resource type="Script" uid="uid://cc6tmrfft3nyc" path="res://multiplayer_spawner.gd" id="9_4c57u"]
 [ext_resource type="Texture2D" uid="uid://clgk5gc3h47hl" path="res://Elements-01.png" id="9_w48qg"]
 [ext_resource type="Shader" uid="uid://bkm3nk7w8hl0k" path="res://crt.gdshader" id="13_ycdy4"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_efxa6"]
+albedo_texture = ExtResource("1_h2yge")
+uv1_triplanar = true
+uv1_world_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_dg77c"]
+material = SubResource("StandardMaterial3D_efxa6")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4c57u"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ycdy4"]
+render_priority = 0
+shader = ExtResource("4_4c57u")
+shader_parameter/primary_color = Color(1, 0, 0, 1)
+shader_parameter/secondary_color = Color(1, 0, 0, 1)
+shader_parameter/density = 1.0
+shader_parameter/effect_strength = 2.0
+shader_parameter/wipe_scale = 3.0
+shader_parameter/wipe_speed = 0.5
+shader_parameter/wipe_blend = 0.7
+shader_parameter/signal_scale = 40.0
+shader_parameter/signal_speed = 1.0
+shader_parameter/signal_random_scale = 0.3
+shader_parameter/signal_blend = 1.0
+shader_parameter/noise_distort_amount = 0.1
+shader_parameter/noise_amount = 1.0
+shader_parameter/grain_amount = 0.4
+shader_parameter/displacement_amount = 1.0
+shader_parameter/flicker_amount = 0.3
+shader_parameter/flicker_speed = 10.0
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5vw27"]
+next_pass = SubResource("ShaderMaterial_ycdy4")
 albedo_texture = ExtResource("1_h2yge")
 uv1_triplanar = true
 uv1_world_triplanar = true
 
 [sub_resource type="BoxMesh" id="BoxMesh_kek77"]
 material = SubResource("StandardMaterial3D_5vw27")
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_4c57u"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_lquwl"]
 sky_top_color = Color(0.528908, 0.599708, 0.698296, 1)
@@ -41,6 +68,14 @@ ambient_light_source = 1
 ambient_light_color = Color(0.566092, 1.76881e-06, 3.36915e-07, 1)
 tonemap_mode = 2
 glow_enabled = true
+
+[sub_resource type="GDScript" id="GDScript_kek77"]
+script/source = "extends Button
+"
+
+[sub_resource type="GDScript" id="GDScript_4c57u"]
+script/source = "extends Button
+"
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_5vw27"]
 
@@ -63,7 +98,7 @@ shader = ExtResource("13_ycdy4")
 shader_parameter/scanlines_1 = 500.0
 shader_parameter/scanlines_2 = 25.0
 shader_parameter/scan_reduction = 0.1
-shader_parameter/vinnette_alpla = 0.51
+shader_parameter/vinnette_alpla = 1.0
 shader_parameter/vinnette_inner_radius = 0.0
 shader_parameter/vinnette_outer_radius = 1.0
 
@@ -75,12 +110,6 @@ script = ExtResource("1_ycdy4")
 [node name="env" type="Node3D" parent="."]
 script = ExtResource("2_dg77c")
 
-[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="env"]
-_spawnable_scenes = PackedStringArray("uid://cq8ohth4n74jn")
-spawn_path = NodePath("..")
-script = ExtResource("9_4c57u")
-nextwork_player = ExtResource("2_kek77")
-
 [node name="players" type="Node3D" parent="env"]
 
 [node name="stage" type="Node3D" parent="env"]
@@ -90,10 +119,49 @@ transform = Transform3D(50, 0, 0, 0, 1, 0, 0, 0, 50, 0, 0, 5.86518)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="env/stage/StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.19209e-07, 0.243505, 0.469591)
-mesh = SubResource("BoxMesh_kek77")
+mesh = SubResource("BoxMesh_dg77c")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="env/stage/StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.243094, 0.471803)
+shape = SubResource("BoxShape3D_4c57u")
+
+[node name="bad" type="StaticBody3D" parent="env/stage" groups=["hittable"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.38071, 24.9953)
+collision_layer = 2
+collision_mask = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="env/stage/bad"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.19209e-07, 6.78989, 0.469591)
+mesh = SubResource("BoxMesh_kek77")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="env/stage/bad"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.79365, 0.471803)
+shape = SubResource("BoxShape3D_4c57u")
+
+[node name="bad2" type="StaticBody3D" parent="env/stage" groups=["hittable"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.73628, -4.11052, 24.9953)
+collision_layer = 2
+collision_mask = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="env/stage/bad2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.19209e-07, 6.78989, 0.469591)
+mesh = SubResource("BoxMesh_kek77")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="env/stage/bad2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.79365, 0.471803)
+shape = SubResource("BoxShape3D_4c57u")
+
+[node name="bad3" type="StaticBody3D" parent="env/stage" groups=["hittable"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.44994, 40.9953)
+collision_layer = 2
+collision_mask = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="env/stage/bad3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.19209e-07, 6.78989, 0.469591)
+mesh = SubResource("BoxMesh_kek77")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="env/stage/bad3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.79365, 0.471803)
 shape = SubResource("BoxShape3D_4c57u")
 
 [node name="spawn_points" type="Node3D" parent="env"]
@@ -151,26 +219,6 @@ text = "XXX"
 fit_content = true
 scroll_active = false
 
-[node name="CROSS" type="RichTextLabel" parent="Control"]
-texture_filter = 5
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -38.0
-offset_top = -49.0
-offset_right = 289.0
-offset_bottom = -9.0
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(1.88, 1.44)
-theme_override_fonts/normal_font = ExtResource("5_lquwl")
-text = "+"
-fit_content = true
-scroll_active = false
-
 [node name="SPEED" type="TextureProgressBar" parent="Control"]
 layout_mode = 1
 anchors_preset = 6
@@ -197,7 +245,7 @@ offset_top = -237.0
 offset_right = -352.0
 offset_bottom = -206.0
 text = "server"
-script = ExtResource("6_efxa6")
+script = SubResource("GDScript_kek77")
 
 [node name="client" type="Button" parent="Control"]
 layout_mode = 0
@@ -206,7 +254,7 @@ offset_top = -274.0
 offset_right = -358.0
 offset_bottom = -243.0
 text = "client"
-script = ExtResource("7_dg77c")
+script = SubResource("GDScript_4c57u")
 
 [node name="speedlines" type="ColorRect" parent="."]
 visible = false
@@ -218,7 +266,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(1, 1, 1, 0)
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="pause_filter" type="TextureRect" parent="."]
 visible = false
 modulate = Color(1, 1, 1, 0.215686)
 self_modulate = Color(1, 1, 1, 0.129412)
@@ -236,6 +284,14 @@ scale = Vector2(0.222826, 0.222826)
 texture = ExtResource("9_w48qg")
 region_enabled = true
 region_rect = Rect2(3752, 832, 184, 184)
+
+[node name="flash" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0)
 
 [connection signal="pressed" from="Control/server" to="Control/server" method="_on_pressed"]
 [connection signal="pressed" from="Control/client" to="Control/client" method="_on_pressed"]

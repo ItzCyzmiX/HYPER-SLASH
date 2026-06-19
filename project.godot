@@ -19,11 +19,10 @@ config/icon="res://icon.svg"
 
 NetworkHandler="*res://network_handler.gd"
 Main="*res://main.gd"
+Globals="*res://globals.gd"
 
 [display]
 
-window/size/viewport_width=1052
-window/size/viewport_height=548
 window/size/no_focus=true
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
@@ -31,6 +30,10 @@ window/stretch/aspect="expand"
 [dotnet]
 
 project/assembly_name="HYPER SLASH"
+
+[global_group]
+
+hittable=""
 
 [input]
 

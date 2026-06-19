@@ -1,4 +1,9 @@
-[gd_scene load_steps=73 format=4 uid="uid://c54l3yx7hk4x0"]
+[gd_scene load_steps=76 format=4 uid="uid://c54l3yx7hk4x0"]
+
+[ext_resource type="Script" uid="uid://cpaereuradywl" path="res://katanaa.gd" id="1_i4ux5"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_i4ux5"]
+size = Vector3(0.798828, 0.614273, 4.68178)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2givb"]
 resource_name = "Material.001"
@@ -83,6 +88,10 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_frmj8")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_i4ux5"]
+albedo_color = Color(0, 0, 0, 1)
+emission_enabled = true
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_wd83s"]
 _surfaces = [{
@@ -1183,6 +1192,16 @@ blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_b8g1y")
 
 [node name="Katanaa" type="Node3D"]
+script = ExtResource("1_i4ux5")
+
+[node name="area" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.118937, 1.29236)
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="area"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0253906, -0.259239, 0.00550079)
+shape = SubResource("BoxShape3D_i4ux5")
 
 [node name="Cube_002" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.03235e-05, -0.210111, 0.0757096)
@@ -1192,6 +1211,7 @@ skeleton = NodePath("")
 [node name="Cube_004" type="MeshInstance3D" parent="."]
 mesh = SubResource("ArrayMesh_i4ux5")
 skeleton = NodePath("")
+surface_material_override/0 = SubResource("StandardMaterial3D_i4ux5")
 
 [node name="Cube_005" type="MeshInstance3D" parent="."]
 mesh = SubResource("ArrayMesh_0mswb")
