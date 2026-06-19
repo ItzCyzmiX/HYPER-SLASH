@@ -14,3 +14,10 @@ func _process(delta: float) -> void:
 		return 
 	else:
 		visible = false
+
+
+func _on_check_fullscreen_toggled(toggled_on: bool) -> void:
+	if toggled_on:
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+	else:
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)

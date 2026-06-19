@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://cq8ohth4n74jn"]
+[gd_scene load_steps=23 format=3 uid="uid://cq8ohth4n74jn"]
 
 [ext_resource type="Script" uid="uid://dsov3x3by716n" path="res://player.gd" id="1_1jxqw"]
 [ext_resource type="Shader" uid="uid://d2f0ja7uy4ly4" path="res://GPUTrail-main/shaders/trail.gdshader" id="2_dw050"]
@@ -6,7 +6,6 @@
 [ext_resource type="Texture2D" uid="uid://crk6pkb7e5rwc" path="res://GPUTrail-main/defaults/texture.tres" id="4_n7ghd"]
 [ext_resource type="Script" uid="uid://42ahix3qhmjt" path="res://GPUTrail-main/GPUTrail3D.gd" id="5_nvl01"]
 [ext_resource type="PackedScene" uid="uid://c54l3yx7hk4x0" path="res://katanaa.tscn" id="6_ivps1"]
-[ext_resource type="PackedScene" uid="uid://c70kihb1mghns" path="res://post_shader.tscn" id="7_1jxqw"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_h2yge"]
 
@@ -347,9 +346,6 @@ skeleton = NodePath("../..")
 
 [node name="Camera3D" type="Camera3D" parent="Head"]
 fov = 90.3
-
-[node name="post_shader" parent="Head" instance=ExtResource("7_1jxqw")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.123116, -0.780692)
 
 [node name="shader_spawn" type="Marker3D" parent="Head"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.123116, -0.780692)

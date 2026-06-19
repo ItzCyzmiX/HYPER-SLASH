@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://ukkkx2tuiuap"]
+[gd_scene load_steps=30 format=3 uid="uid://ukkkx2tuiuap"]
 
 [ext_resource type="Texture2D" uid="uid://ctficqmxak4fq" path="res://texture_01.png" id="1_h2yge"]
 [ext_resource type="Script" uid="uid://behjlat7mkp4c" path="res://main.gd" id="1_ycdy4"]
@@ -8,10 +8,12 @@
 [ext_resource type="FontFile" uid="uid://db0gd5csnvc2k" path="res://healzone-by-thUg-inc.ttf" id="5_lquwl"]
 [ext_resource type="Texture2D" uid="uid://nbhkmoxchyf4" path="res://Asset 11.png" id="6_272bh"]
 [ext_resource type="Texture2D" uid="uid://cbbtcfq8sx84i" path="res://Asset 10.png" id="7_5vw27"]
+[ext_resource type="Texture2D" uid="uid://bexk3cl5f0tut" path="res://Gods-and-Idols-2012-04-11-21-41-43-84.jpg" id="7_vivmo"]
 [ext_resource type="Shader" uid="uid://dosqha2thsvk2" path="res://lines.gdshader" id="8_5vw27"]
 [ext_resource type="Texture2D" uid="uid://clgk5gc3h47hl" path="res://Elements-01.png" id="9_w48qg"]
 [ext_resource type="Script" uid="uid://clvkbk38lyvhl" path="res://pause_container.gd" id="11_efxa6"]
 [ext_resource type="FontFile" uid="uid://3e82qb88pgm0" path="res://MajorMonoDisplay-Regular.ttf" id="12_dg77c"]
+[ext_resource type="Texture2D" uid="uid://chiajdofn0d4" path="res://IMG_20260615_144200_535.jpg" id="13_w48qg"]
 [ext_resource type="Shader" uid="uid://bkm3nk7w8hl0k" path="res://crt.gdshader" id="13_ycdy4"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_efxa6"]
@@ -54,20 +56,22 @@ uv1_world_triplanar = true
 [sub_resource type="BoxMesh" id="BoxMesh_kek77"]
 material = SubResource("StandardMaterial3D_5vw27")
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ycdy4"]
-sky_top_color = Color(0.177725, 0.219233, 0.276958, 1)
-ground_bottom_color = Color(1, 1, 1, 1)
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_2cqfq"]
+panorama = ExtResource("7_vivmo")
+energy_multiplier = 0.4
 
-[sub_resource type="Sky" id="Sky_lquwl"]
-sky_material = SubResource("ProceduralSkyMaterial_ycdy4")
+[sub_resource type="Sky" id="Sky_yaehf"]
+sky_material = SubResource("PanoramaSkyMaterial_2cqfq")
+radiance_size = 2
 
 [sub_resource type="Environment" id="Environment_7mycd"]
 background_mode = 2
-sky = SubResource("Sky_lquwl")
+sky = SubResource("Sky_yaehf")
 ambient_light_source = 1
 ambient_light_color = Color(0.566092, 1.76881e-06, 3.36915e-07, 1)
-tonemap_mode = 2
 glow_enabled = true
+glow_intensity = 2.3
+glow_blend_mode = 1
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_5vw27"]
 
@@ -158,6 +162,10 @@ mesh = SubResource("BoxMesh_kek77")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="env/stage/bad3"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.79365, 0.471803)
 shape = SubResource("BoxShape3D_4c57u")
+
+[node name="Sprite3D" type="Sprite3D" parent="env/stage"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 7.58531, 7.09378)
+texture = ExtResource("13_w48qg")
 
 [node name="spawn_points" type="Node3D" parent="env"]
 
@@ -340,13 +348,12 @@ size_flags_horizontal = 4
 button_pressed = true
 text = "trial"
 
-[node name="check_shaders" type="CheckButton" parent="Container/VBoxContainer"]
+[node name="check_fullscreen" type="CheckButton" parent="Container/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
-button_pressed = true
-text = "shaders"
+text = "fullscreen"
 
 [connection signal="color_changed" from="Container/VBoxContainer/HBoxContainer/trail_color_picker" to="env/players/player" method="_on_trail_color_picker_color_changed"]
 [connection signal="color_changed" from="Container/VBoxContainer/HBoxContainer/sword_color_picker" to="env/players/player" method="_on_sword_color_picker_color_changed"]
 [connection signal="toggled" from="Container/VBoxContainer/check_trail" to="env/players/player" method="_on_check_trail_toggled"]
-[connection signal="toggled" from="Container/VBoxContainer/check_shaders" to="env/players/player" method="_on_check_shaders_toggled"]
+[connection signal="toggled" from="Container/VBoxContainer/check_fullscreen" to="Container" method="_on_check_fullscreen_toggled"]

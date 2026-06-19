@@ -98,7 +98,7 @@ func _physics_process(delta: float) -> void:
 			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 	if Globals.PAUSED: return
-	print(is_attacking)
+
 	move_and_slide()
 
 	var collided_with = katana_model.check_collision()
@@ -249,20 +249,6 @@ func change_trail_color(color):
 	grt.set_gradient(gr)
 	trail._set_color_ramp(grt)
 
-func spawn_shader():
-	var exists = head.get_node_or_null("post_shader") != null
-	if exists: return
-	var quad = preload("res://post_shader.tscn").instantiate()
-	quad.global_position = shader_spawn.global_position
-	quad.name = "post_shader"
-	head.add_child(quad)
-
-func remove_shader():
-	var quad = head.get_node_or_null("post_shader") 
-	if quad:
-		quad.queue_free()
-
-
 func _on_trail_color_picker_color_changed(color: Color) -> void:
 	change_trail_color(color.to_html())
 
@@ -271,9 +257,3 @@ func _on_sword_color_picker_color_changed(color: Color) -> void:
 
 func _on_check_trail_toggled(toggled_on: bool) -> void:
 	trail.visible = toggled_on
-
-func _on_check_shaders_toggled(toggled_on: bool) -> void:
-	if toggled_on:
-		spawn_shader()
-	else:
-		remove_shader()
