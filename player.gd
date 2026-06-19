@@ -17,6 +17,7 @@ extends CharacterBody3D
 @onready var flash: ColorRect = $"../../../flash"
 @onready var trail: GPUTrail3D = $Head/hand/trail
 @onready var katana_model: Node3D = $Head/hand/katana/katan_model
+@onready var shader_spawn: Marker3D = $Head/shader_spawn
 
 var SHAKE_INTENSITY = 2
 var is_attacking = false
@@ -41,25 +42,21 @@ var is_sliding = false
 var OG_HEAD_Y = 0
 var is_moving = false
 var INIT_POS = Vector3.ZERO
-
+var QUAD_POS = Vector3(0.0, 0.123, -0.781)
 func _enter_tree() -> void:
 	set_multiplayer_authority(str(name).to_int())
 	
 func _ready() -> void:
-	var grt = GradientTexture1D.new()
-	var gr = Gradient.new()
-	gr.colors = PackedColorArray([Color.TRANSPARENT, Color.TRANSPARENT, Color.TRANSPARENT, Color.TRANSPARENT, Color.TRANSPARENT, Color(Globals.TRAIL_COLOR)])
-	grt.set_gradient(gr)
-	trail._set_color_ramp(grt)
+	change_trail_color(Globals.TRAIL_COLOR)
 	katana_model.set_color(Globals.SWORD_COLOR)
-	#camera.current = is_multiplayer_authority()
+
 	OG_HEAD_Y = head.position.y
 	INIT_POS = position
-	#if is_multiplayer_authority():
+
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 func _input(event: InputEvent) -> void:
-	#if !is_multiplayer_authority(): return
+
 	if Globals.PAUSED: return 
 	
 	if event is InputEventMouseMotion:
@@ -70,13 +67,12 @@ func _input(event: InputEvent) -> void:
 	
 	if event.is_action_pressed("attack"):
 	
-		
-		animation_player.stop()
-		
-	
-		animation_player.play("slash1")
+		if not is_blocking:
+			animation_player.stop()
 			
-		is_attacking = true
+			animation_player.play("slash1")
+				
+			is_attacking = true
 			
 		
 	if event.is_action_pressed("block"):
@@ -89,7 +85,7 @@ func _input(event: InputEvent) -> void:
 
 
 func _physics_process(delta: float) -> void:
-	#if !is_multiplayer_authority(): return
+	
 	if Input.is_action_just_pressed("ui_cancel"):
 		if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 			pause_vhs.visible = true
@@ -112,6 +108,7 @@ func _physics_process(delta: float) -> void:
 			SHAKE_INTENSITY = 3
 			shake_time.wait_time = 0.3
 			shake_time.start()
+		
 			$hitstop_time.start()
 			flash.color = Color("ffffff7b")
 			Engine.time_scale = 0.01
@@ -164,10 +161,7 @@ func _physics_process(delta: float) -> void:
 		SPEED = NORMAL_SPEED
 
 		is_sliding = false
-	
-	
 
-	
 	if Input.is_action_pressed("jump") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
 		
@@ -246,3 +240,40 @@ func _on_dash_time_timeout() -> void:
 func _on_hitstop_time_timeout() -> void:
 	Engine.time_scale = 1
 	flash.color = Color('ffffff00')
+
+
+func change_trail_color(color):
+	var grt = GradientTexture1D.new()
+	var gr = Gradient.new()
+	gr.colors = PackedColorArray([Color.TRANSPARENT, Color.TRANSPARENT, Color.TRANSPARENT, Color.TRANSPARENT, Color.TRANSPARENT, Color(color)])
+	grt.set_gradient(gr)
+	trail._set_color_ramp(grt)
+
+func spawn_shader():
+	var exists = head.get_node_or_null("post_shader") != null
+	if exists: return
+	var quad = preload("res://post_shader.tscn").instantiate()
+	quad.global_position = shader_spawn.global_position
+	quad.name = "post_shader"
+	head.add_child(quad)
+
+func remove_shader():
+	var quad = head.get_node_or_null("post_shader") 
+	if quad:
+		quad.queue_free()
+
+
+func _on_trail_color_picker_color_changed(color: Color) -> void:
+	change_trail_color(color.to_html())
+
+func _on_sword_color_picker_color_changed(color: Color) -> void:
+	katana_model.set_color(color)
+
+func _on_check_trail_toggled(toggled_on: bool) -> void:
+	trail.visible = toggled_on
+
+func _on_check_shaders_toggled(toggled_on: bool) -> void:
+	if toggled_on:
+		spawn_shader()
+	else:
+		remove_shader()

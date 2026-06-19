@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://cq8ohth4n74jn"]
+[gd_scene load_steps=24 format=3 uid="uid://cq8ohth4n74jn"]
 
 [ext_resource type="Script" uid="uid://dsov3x3by716n" path="res://player.gd" id="1_1jxqw"]
 [ext_resource type="Shader" uid="uid://d2f0ja7uy4ly4" path="res://GPUTrail-main/shaders/trail.gdshader" id="2_dw050"]
@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://crk6pkb7e5rwc" path="res://GPUTrail-main/defaults/texture.tres" id="4_n7ghd"]
 [ext_resource type="Script" uid="uid://42ahix3qhmjt" path="res://GPUTrail-main/GPUTrail3D.gd" id="5_nvl01"]
 [ext_resource type="PackedScene" uid="uid://c54l3yx7hk4x0" path="res://katanaa.tscn" id="6_ivps1"]
-[ext_resource type="Shader" uid="uid://iid5us4f2ve8" path="res://outline.gdshader" id="7_urp6f"]
+[ext_resource type="PackedScene" uid="uid://c70kihb1mghns" path="res://post_shader.tscn" id="7_1jxqw"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_h2yge"]
 
@@ -291,16 +291,6 @@ _data = {
 &"slash2": SubResource("Animation_2cqfq")
 }
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_7mycd"]
-render_priority = 0
-shader = ExtResource("7_urp6f")
-shader_parameter/min_step = 0.4
-shader_parameter/max_step = 0.6
-
-[sub_resource type="QuadMesh" id="QuadMesh_272bh"]
-material = SubResource("ShaderMaterial_7mycd")
-size = Vector2(2, 2)
-
 [node name="player" type="CharacterBody3D"]
 script = ExtResource("1_1jxqw")
 
@@ -358,10 +348,11 @@ skeleton = NodePath("../..")
 [node name="Camera3D" type="Camera3D" parent="Head"]
 fov = 90.3
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Head"]
+[node name="post_shader" parent="Head" instance=ExtResource("7_1jxqw")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.123116, -0.780692)
-mesh = SubResource("QuadMesh_272bh")
-skeleton = NodePath("../../..")
+
+[node name="shader_spawn" type="Marker3D" parent="Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.123116, -0.780692)
 
 [node name="dash_refill_timer" type="Timer" parent="."]
 one_shot = true

@@ -16,4 +16,4 @@ func spawn_player() -> void:
 
 
 func _ready() -> void:
-	spawn_player()
+	pass

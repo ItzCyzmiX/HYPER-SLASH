@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://c70kihb1mghns"]
+
+[ext_resource type="Shader" uid="uid://iid5us4f2ve8" path="res://outline.gdshader" id="1_ine7i"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7mycd"]
+render_priority = 0
+shader = ExtResource("1_ine7i")
+shader_parameter/min_step = 0.4
+shader_parameter/max_step = 0.6
+
+[sub_resource type="QuadMesh" id="QuadMesh_272bh"]
+material = SubResource("ShaderMaterial_7mycd")
+size = Vector2(2, 2)
+
+[node name="MeshInstance3D" type="MeshInstance3D"]
+mesh = SubResource("QuadMesh_272bh")
+skeleton = NodePath("../../..")
