@@ -52,8 +52,9 @@ func _ready() -> void:
 	katana_model.set_color(Globals.SWORD_COLOR)
 	crosshair.visible = true
 	OG_HEAD_Y = float(head.position.y)
-	INIT_POS = position
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	
+
 
 func _input(event: InputEvent) -> void:
 
@@ -70,7 +71,7 @@ func _input(event: InputEvent) -> void:
 		if not is_blocking:
 			animation_player.stop()
 			
-			animation_player.play("slash1")
+			animation_player.play("attack")
 				
 			is_attacking = true
 			
@@ -138,7 +139,7 @@ func _physics_process(delta: float) -> void:
 		var tween = create_tween()
 		tween.tween_property(camera, "v_offset", 0.0, 0.1).set_ease(Tween.EASE_IN)
 		
-	is_moving = get_real_velocity().length() > 0.8
+	is_moving = get_real_velocity().length() > 5
 	
 	if is_moving and Input.is_action_just_pressed("slide") and is_on_floor() and not is_dashing:
 		SPEED = SLIDE_SPEED
@@ -148,6 +149,7 @@ func _physics_process(delta: float) -> void:
 		
 		is_sliding = true
 		speedlines.visible = true
+		animation_player.play("slide")
 	
 	if is_sliding:
 		if !is_moving:
@@ -156,7 +158,7 @@ func _physics_process(delta: float) -> void:
 			camera.fov = lerp(camera.fov, NORMAL_FOV - 10, 15.0 * delta)	
 			head.position.y = lerp(head.position.y, OG_HEAD_Y - 0.8, 15.0 * delta)	
 			control_ui.scale = lerp(control_ui.scale, Vector2(0.95, 0.95), 10.0 * delta)
-	else:
+	else:		
 		speedlines.visible = false
 		camera.fov = lerp(camera.fov, NORMAL_FOV, 20.0 * delta)	
 		head.position.y = lerpf(head.position.y, OG_HEAD_Y, 20.0 * delta)	
@@ -167,7 +169,7 @@ func _physics_process(delta: float) -> void:
 		normal_collision.disabled = false 
 	
 		SPEED = NORMAL_SPEED
-
+		animation_player.play("RESET")
 		is_sliding = false
 
 	if Input.is_action_pressed("jump") and is_on_floor():
@@ -207,7 +209,11 @@ func _physics_process(delta: float) -> void:
 		velocity.z = move_toward(velocity.z, 0, SPEED)
 	
 	if position.y < -4.35:
-		position = INIT_POS 
+		
+		
+		global_position = INIT_POS 
+		velocity = Vector3.ZERO
+		
 		shake_time.wait_time = 0.1
 		SHAKE_INTENSITY = 2
 		shake_time.start()
@@ -226,8 +232,10 @@ func _physics_process(delta: float) -> void:
 	hp_ui.text = str(hp) + "/100"
 	
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
-	animation_player.play("RESET")
-	if anim_name == "slash1":
+	if anim_name != "slide":
+		animation_player.play("RESET")
+	
+	if anim_name == "attack":
 		is_attacking = false
 	
 	if anim_name == "block":
