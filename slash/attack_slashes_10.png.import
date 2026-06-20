@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://t7ivflspabou"
 path.s3tc="res://.godot/imported/attack_slashes_10.png-a441dd669aeb921bd320c4b0b65433cd.s3tc.ctex"
+path.etc2="res://.godot/imported/attack_slashes_10.png-a441dd669aeb921bd320c4b0b65433cd.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://slash/attack_slashes_10.png"
-dest_files=["res://.godot/imported/attack_slashes_10.png-a441dd669aeb921bd320c4b0b65433cd.s3tc.ctex"]
+dest_files=["res://.godot/imported/attack_slashes_10.png-a441dd669aeb921bd320c4b0b65433cd.s3tc.ctex", "res://.godot/imported/attack_slashes_10.png-a441dd669aeb921bd320c4b0b65433cd.etc2.ctex"]
 
 [params]
 

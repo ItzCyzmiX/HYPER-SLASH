@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://bexk3cl5f0tut"
 path.s3tc="res://.godot/imported/Gods-and-Idols-2012-04-11-21-41-43-84.jpg-f82009eb2a51e8c80786d57d3f688116.s3tc.ctex"
+path.etc2="res://.godot/imported/Gods-and-Idols-2012-04-11-21-41-43-84.jpg-f82009eb2a51e8c80786d57d3f688116.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Gods-and-Idols-2012-04-11-21-41-43-84.jpg"
-dest_files=["res://.godot/imported/Gods-and-Idols-2012-04-11-21-41-43-84.jpg-f82009eb2a51e8c80786d57d3f688116.s3tc.ctex"]
+dest_files=["res://.godot/imported/Gods-and-Idols-2012-04-11-21-41-43-84.jpg-f82009eb2a51e8c80786d57d3f688116.s3tc.ctex", "res://.godot/imported/Gods-and-Idols-2012-04-11-21-41-43-84.jpg-f82009eb2a51e8c80786d57d3f688116.etc2.ctex"]
 
 [params]
 
