@@ -3,6 +3,7 @@ extends Node3D
 const IP_ADRESS = "localhost"
 const PORT = 42069
 var peer: ENetMultiplayerPeer
+@onready var main_menu: Control = $"../main_menu"
 
 @onready var players_container: Node3D = $"players"
 @onready var spawn_points = $"spawn_points"
@@ -16,4 +17,8 @@ func spawn_player() -> void:
 
 
 func _ready() -> void:
-	pass
+	Globals.IN_GAME = true
+	$"../GUI".visible = true
+	spawn_player()
+	$"../song".play()
+	

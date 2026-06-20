@@ -93,4 +93,4 @@ block={
 
 [rendering]
 
-textures/vram_compression/import_etc2_astc=true
+textures/default_filters/anisotropic_filtering_level=0

@@ -8,16 +8,17 @@ extends CharacterBody3D
 @onready var slide_collision: CollisionShape3D = $CollisionShape3D2
 @onready var dashing_time: Timer = $dash_time
 @onready var shake_time: Timer = $shake_time
-@onready var dashes_ui: RichTextLabel = $"../../../Control/DASHES"
-@onready var hp_ui: RichTextLabel = $"../../../Control/HP"
-@onready var speed: TextureProgressBar = $"../../../Control/SPEED"
-@onready var control_ui: Control = $"../../../Control"
+@onready var dashes_ui: RichTextLabel = $"../../../GUI/DASHES"
+@onready var hp_ui: RichTextLabel = $"../../../GUI/HP"
+@onready var speed: TextureProgressBar = $"../../../GUI/SPEED"
+@onready var control_ui: Control = $"../../../GUI"
 @onready var speedlines: ColorRect = $"../../../speedlines"
 @onready var pause_vhs: TextureRect = $"../../../pause_filter"
 @onready var flash: ColorRect = $"../../../flash"
 @onready var trail: GPUTrail3D = $Head/hand/trail
 @onready var katana_model: Node3D = $Head/hand/katana/katan_model
 @onready var shader_spawn: Marker3D = $Head/shader_spawn
+@onready var crosshair: Sprite2D = $"../../../cross"
 
 var SHAKE_INTENSITY = 2
 var is_attacking = false
@@ -43,21 +44,20 @@ var OG_HEAD_Y = 0
 var is_moving = false
 var INIT_POS = Vector3.ZERO
 var QUAD_POS = Vector3(0.0, 0.123, -0.781)
-func _enter_tree() -> void:
-	set_multiplayer_authority(str(name).to_int())
-	
+
 func _ready() -> void:
+	if !Globals.IN_GAME: return
+	
 	change_trail_color(Globals.TRAIL_COLOR)
 	katana_model.set_color(Globals.SWORD_COLOR)
-
-	OG_HEAD_Y = head.position.y
+	crosshair.visible = true
+	OG_HEAD_Y = float(head.position.y)
 	INIT_POS = position
-
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 func _input(event: InputEvent) -> void:
 
-	if Globals.PAUSED: return 
+	if !Globals.IN_GAME or Globals.PAUSED: return 
 	
 	if event is InputEventMouseMotion:
 
@@ -85,17 +85,22 @@ func _input(event: InputEvent) -> void:
 
 
 func _physics_process(delta: float) -> void:
+	if !Globals.IN_GAME: false 
 	
 	if Input.is_action_just_pressed("ui_cancel"):
-		if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
-			pause_vhs.visible = true
-			Globals.PAUSED = true
+		if !Globals.PAUSED:
 			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-		
+			pause_vhs.visible = true
+			$"../../../Container".visible = true
+			Globals.PAUSED = true
+			var fx = AudioEffectHighPassFilter.new()
+			AudioServer.add_bus_effect(AudioServer.get_bus_index("Song"), fx, 1)
 		else:
-			pause_vhs.visible = false
-			Globals.PAUSED = false
 			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+			pause_vhs.visible = false
+			$"../../../Container".visible = false
+			Globals.PAUSED = false
+			AudioServer.remove_bus_effect(AudioServer.get_bus_index("Song"), 0)
 
 	if Globals.PAUSED: return
 
@@ -105,10 +110,11 @@ func _physics_process(delta: float) -> void:
 	
 	for i in collided_with:
 		if is_attacking:
+
 			SHAKE_INTENSITY = 3
 			shake_time.wait_time = 0.3
 			shake_time.start()
-		
+			
 			$hitstop_time.start()
 			flash.color = Color("ffffff7b")
 			Engine.time_scale = 0.01
@@ -132,7 +138,7 @@ func _physics_process(delta: float) -> void:
 		var tween = create_tween()
 		tween.tween_property(camera, "v_offset", 0.0, 0.1).set_ease(Tween.EASE_IN)
 		
-	is_moving = get_real_velocity().length() > 0.15
+	is_moving = get_real_velocity().length() > 0.8
 	
 	if is_moving and Input.is_action_just_pressed("slide") and is_on_floor() and not is_dashing:
 		SPEED = SLIDE_SPEED
@@ -144,14 +150,16 @@ func _physics_process(delta: float) -> void:
 		speedlines.visible = true
 	
 	if is_sliding:
-		
-		camera.fov = lerp(camera.fov, NORMAL_FOV - 10, 15.0 * delta)	
-		head.position.y = lerp(head.position.y, OG_HEAD_Y - 0.8, 15.0 * delta)	
-		control_ui.scale = lerp(control_ui.scale, Vector2(0.95, 0.95), 10.0 * delta)
+		if !is_moving:
+			is_sliding = false  
+		else:
+			camera.fov = lerp(camera.fov, NORMAL_FOV - 10, 15.0 * delta)	
+			head.position.y = lerp(head.position.y, OG_HEAD_Y - 0.8, 15.0 * delta)	
+			control_ui.scale = lerp(control_ui.scale, Vector2(0.95, 0.95), 10.0 * delta)
 	else:
 		speedlines.visible = false
 		camera.fov = lerp(camera.fov, NORMAL_FOV, 20.0 * delta)	
-		head.position.y = lerp(head.position.y, OG_HEAD_Y, 20.0 * delta)	
+		head.position.y = lerpf(head.position.y, OG_HEAD_Y, 20.0 * delta)	
 		control_ui.scale = lerp(control_ui.scale, Vector2(1.0, 1.0), 20.0 * delta)
 
 	if Input.is_action_just_released("slide") and is_sliding:
@@ -240,7 +248,6 @@ func _on_dash_time_timeout() -> void:
 func _on_hitstop_time_timeout() -> void:
 	Engine.time_scale = 1
 	flash.color = Color('ffffff00')
-
 
 func change_trail_color(color):
 	var grt = GradientTexture1D.new()

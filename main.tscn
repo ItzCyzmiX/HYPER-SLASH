@@ -3,7 +3,6 @@
 [ext_resource type="Texture2D" uid="uid://ctficqmxak4fq" path="res://texture_01.png" id="1_h2yge"]
 [ext_resource type="Script" uid="uid://behjlat7mkp4c" path="res://main.gd" id="1_ycdy4"]
 [ext_resource type="Script" uid="uid://m1103wwypse" path="res://world.gd" id="2_dg77c"]
-[ext_resource type="PackedScene" uid="uid://cq8ohth4n74jn" path="res://player.tscn" id="3_ycdy4"]
 [ext_resource type="Shader" uid="uid://cdqt70k87jsp6" path="res://holo.gdshader" id="4_4c57u"]
 [ext_resource type="FontFile" uid="uid://db0gd5csnvc2k" path="res://healzone-by-thUg-inc.ttf" id="5_lquwl"]
 [ext_resource type="Texture2D" uid="uid://nbhkmoxchyf4" path="res://Asset 11.png" id="6_272bh"]
@@ -14,6 +13,7 @@
 [ext_resource type="Script" uid="uid://clvkbk38lyvhl" path="res://pause_container.gd" id="11_efxa6"]
 [ext_resource type="FontFile" uid="uid://3e82qb88pgm0" path="res://MajorMonoDisplay-Regular.ttf" id="12_dg77c"]
 [ext_resource type="Shader" uid="uid://bkm3nk7w8hl0k" path="res://crt.gdshader" id="13_ycdy4"]
+[ext_resource type="AudioStream" uid="uid://b6esqeanb5s2u" path="res://music/moment.mp3" id="14_w48qg"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_efxa6"]
 albedo_texture = ExtResource("1_h2yge")
@@ -107,9 +107,6 @@ script = ExtResource("2_dg77c")
 
 [node name="players" type="Node3D" parent="env"]
 
-[node name="player" parent="env/players" instance=ExtResource("3_ycdy4")]
-transform = Transform3D(-0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, -0.965926, 0, 2.0776, 10.4089)
-
 [node name="stage" type="Node3D" parent="env"]
 
 [node name="StaticBody3D" type="StaticBody3D" parent="env/stage"]
@@ -176,7 +173,8 @@ environment = SubResource("Environment_7mycd")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="env"]
 transform = Transform3D(1, 0, 0, 0, -0.0463045, 0.998927, 0, -0.998927, -0.0463045, 0, 9.15519, 0)
 
-[node name="Control" type="Control" parent="."]
+[node name="GUI" type="Control" parent="."]
+visible = false
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -186,7 +184,7 @@ anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="HP" type="RichTextLabel" parent="Control"]
+[node name="HP" type="RichTextLabel" parent="GUI"]
 texture_filter = 5
 layout_mode = 1
 anchors_preset = 5
@@ -203,7 +201,7 @@ text = "100/100"
 fit_content = true
 scroll_active = false
 
-[node name="DASHES" type="RichTextLabel" parent="Control"]
+[node name="DASHES" type="RichTextLabel" parent="GUI"]
 texture_filter = 5
 layout_mode = 1
 offset_left = -498.0
@@ -217,7 +215,7 @@ text = "XXX"
 fit_content = true
 scroll_active = false
 
-[node name="SPEED" type="TextureProgressBar" parent="Control"]
+[node name="SPEED" type="TextureProgressBar" parent="GUI"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -258,7 +256,8 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("CanvasTexture_ycdy4")
 
-[node name="Elements-01" type="Sprite2D" parent="."]
+[node name="cross" type="Sprite2D" parent="."]
+visible = false
 position = Vector2(575, 323)
 scale = Vector2(0.222826, 0.222826)
 texture = ExtResource("9_w48qg")
@@ -274,6 +273,7 @@ grow_vertical = 2
 color = Color(1, 1, 1, 0)
 
 [node name="Container" type="CenterContainer" parent="."]
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -348,7 +348,10 @@ layout_mode = 2
 size_flags_horizontal = 4
 text = "fullscreen"
 
-[connection signal="color_changed" from="Container/VBoxContainer/HBoxContainer/trail_color_picker" to="env/players/player" method="_on_trail_color_picker_color_changed"]
-[connection signal="color_changed" from="Container/VBoxContainer/HBoxContainer/sword_color_picker" to="env/players/player" method="_on_sword_color_picker_color_changed"]
-[connection signal="toggled" from="Container/VBoxContainer/check_trail" to="env/players/player" method="_on_check_trail_toggled"]
+[node name="song" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("14_w48qg")
+volume_db = -2.5
+bus = &"Song"
+parameters/looping = true
+
 [connection signal="toggled" from="Container/VBoxContainer/check_fullscreen" to="Container" method="_on_check_fullscreen_toggled"]
