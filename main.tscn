@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://ukkkx2tuiuap"]
+[gd_scene load_steps=29 format=3 uid="uid://ukkkx2tuiuap"]
 
 [ext_resource type="Texture2D" uid="uid://ctficqmxak4fq" path="res://texture_01.png" id="1_h2yge"]
 [ext_resource type="Script" uid="uid://behjlat7mkp4c" path="res://main.gd" id="1_ycdy4"]
@@ -13,7 +13,6 @@
 [ext_resource type="Texture2D" uid="uid://clgk5gc3h47hl" path="res://Elements-01.png" id="9_w48qg"]
 [ext_resource type="Script" uid="uid://clvkbk38lyvhl" path="res://pause_container.gd" id="11_efxa6"]
 [ext_resource type="FontFile" uid="uid://3e82qb88pgm0" path="res://MajorMonoDisplay-Regular.ttf" id="12_dg77c"]
-[ext_resource type="Texture2D" uid="uid://chiajdofn0d4" path="res://IMG_20260615_144200_535.jpg" id="13_w48qg"]
 [ext_resource type="Shader" uid="uid://bkm3nk7w8hl0k" path="res://crt.gdshader" id="13_ycdy4"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_efxa6"]
@@ -162,10 +161,6 @@ mesh = SubResource("BoxMesh_kek77")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="env/stage/bad3"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.79365, 0.471803)
 shape = SubResource("BoxShape3D_4c57u")
-
-[node name="Sprite3D" type="Sprite3D" parent="env/stage"]
-transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 7.58531, 7.09378)
-texture = ExtResource("13_w48qg")
 
 [node name="spawn_points" type="Node3D" parent="env"]
 
