@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://cq8ohth4n74jn"]
+[gd_scene load_steps=26 format=3 uid="uid://cq8ohth4n74jn"]
 
 [ext_resource type="Script" uid="uid://dsov3x3by716n" path="res://player.gd" id="1_1jxqw"]
 [ext_resource type="Shader" uid="uid://d2f0ja7uy4ly4" path="res://GPUTrail-main/shaders/trail.gdshader" id="2_dw050"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://crk6pkb7e5rwc" path="res://GPUTrail-main/defaults/texture.tres" id="4_n7ghd"]
 [ext_resource type="Script" uid="uid://42ahix3qhmjt" path="res://GPUTrail-main/GPUTrail3D.gd" id="5_nvl01"]
 [ext_resource type="PackedScene" uid="uid://c54l3yx7hk4x0" path="res://katanaa.tscn" id="6_ivps1"]
+[ext_resource type="Script" uid="uid://41nwnk4sk70q" path="res://addons/rope3d/rope3d.gd" id="7_1jxqw"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_h2yge"]
 
@@ -426,8 +427,24 @@ transform = Transform3D(0.227907, 0.973683, -0.000559068, -0.972023, 0.227485, -
 mesh = SubResource("BoxMesh_h2yge")
 skeleton = NodePath("../..")
 
+[node name="rope" type="Node3D" parent="Head/hand2" node_paths=PackedStringArray("start_point", "end_point")]
+transform = Transform3D(0.227907, -0.972023, -0.0568257, 0.973681, 0.227485, 0.0138742, -0.000559027, -0.0584923, 0.998287, -0.0421355, 0.0187189, -0.884262)
+script = ExtResource("7_1jxqw")
+start_point = NodePath("../rope_start")
+end_point = NodePath("../rope_end")
+metadata/_custom_type_script = "uid://41nwnk4sk70q"
+
+[node name="rope_start" type="Marker3D" parent="Head/hand2"]
+transform = Transform3D(1, 2.33995e-08, -3.72529e-09, -8.49832e-09, 1, 0, -3.72529e-09, 9.31323e-10, 1, 0.0512483, -0.0125125, -0.900305)
+
+[node name="rope_end" type="Marker3D" parent="Head/hand2"]
+transform = Transform3D(1, 5.326e-08, -3.72529e-09, -2.33413e-08, 1, 0, -7.45058e-09, 2.79397e-09, 1, 0.141757, -0.0346105, -2.49032)
+
 [node name="Camera3D" type="Camera3D" parent="Head"]
 fov = 90.3
+
+[node name="shader_spawn" type="Marker3D" parent="Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.123116, -0.780692)
 
 [node name="dash_refill_timer" type="Timer" parent="."]
 one_shot = true

@@ -14,7 +14,6 @@ func set_color(color):
 
 func get_color():
 	return COLOR
-	
 
 func check_collision():
 	var nodes = []

@@ -17,20 +17,19 @@ extends CharacterBody3D
 @onready var flash: ColorRect = $"../../../flash"
 @onready var trail: GPUTrail3D = $Head/hand/trail
 @onready var katana_model: Node3D = $Head/hand/katana/katan_model
-@onready var shader_spawn: Marker3D = $Head/shader_spawn
 @onready var crosshair: Sprite2D = $"../../../cross"
 
 var SHAKE_INTENSITY = 2
 var is_attacking = false
 var hp = 100
 var is_blocking = false
-var BLOCK_SPEED = 3.0
-var SPEED = 10.0
 const NORMAL_FOV = 90.3
+var SPEED = 10.0
 const NORMAL_SPEED = 10.0
+var BLOCK_SPEED = 3.0
 const SLIDE_SPEED = 20.0
 const DASH_SPEED = 100.0
-const JUMP_VELOCITY = 9
+const JUMP_VELOCITY = 12
 const SENS = 0.2
 var direction = Vector3.ZERO
 var cur_slash = 1
@@ -43,22 +42,18 @@ var is_sliding = false
 var OG_HEAD_Y = 0
 var is_moving = false
 var INIT_POS = Vector3.ZERO
-var QUAD_POS = Vector3(0.0, 0.123, -0.781)
 
 func _ready() -> void:
-	if !Globals.IN_GAME: return
-	
+
 	change_trail_color(Globals.TRAIL_COLOR)
 	katana_model.set_color(Globals.SWORD_COLOR)
 	crosshair.visible = true
 	OG_HEAD_Y = float(head.position.y)
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	
-
 
 func _input(event: InputEvent) -> void:
 
-	if !Globals.IN_GAME or Globals.PAUSED: return 
+	if Globals.PAUSED: return
 	
 	if event is InputEventMouseMotion:
 
@@ -86,8 +81,6 @@ func _input(event: InputEvent) -> void:
 
 
 func _physics_process(delta: float) -> void:
-	if !Globals.IN_GAME: false 
-	
 	if Input.is_action_just_pressed("ui_cancel"):
 		if !Globals.PAUSED:
 			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
@@ -106,21 +99,22 @@ func _physics_process(delta: float) -> void:
 	if Globals.PAUSED: return
 
 	move_and_slide()
-
-	var collided_with = katana_model.check_collision()
 	
-	for i in collided_with:
-		if is_attacking:
-
-			SHAKE_INTENSITY = 3
-			shake_time.wait_time = 0.3
-			shake_time.start()
-			
-			$hitstop_time.start()
-			flash.color = Color("ffffff7b")
-			Engine.time_scale = 0.01
-			
-			i.queue_free()
+	if animation_player.name == "attack":
+		var collided_with = katana_model.check_collision()
+		
+		for i in collided_with:
+			if is_attacking:
+	
+				SHAKE_INTENSITY = 3
+				shake_time.wait_time = 0.3
+				shake_time.start()
+				
+				$hitstop_time.start()
+				flash.color = Color("ffffff7b")
+				Engine.time_scale = 0.01
+				
+				i.queue_free()
 
 	if not is_on_floor():
 		velocity += get_gravity() * delta

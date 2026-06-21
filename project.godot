@@ -17,18 +17,21 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-Main="*res://main.gd"
 Globals="*res://globals.gd"
 
 [display]
 
-window/size/no_focus=true
+window/subwindows/embed_subwindows=false
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 
 [dotnet]
 
 project/assembly_name="HYPER SLASH"
+
+[editor_plugins]
+
+enabled=PackedStringArray()
 
 [global_group]
 
@@ -87,6 +90,11 @@ block={
 ]
 }
 
+[internationalization]
+
+pseudolocalization/default_filters/anisotropic_filtering_level=0
+pseudolocalization/subwindows/embed_subwindows=false
+
 [physics]
 
 3d/default_gravity=18.0
@@ -94,3 +102,4 @@ block={
 [rendering]
 
 textures/default_filters/anisotropic_filtering_level=0
+environment/glow/upscale_mode=0
