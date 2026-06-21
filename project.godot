@@ -29,6 +29,10 @@ window/stretch/aspect="expand"
 
 project/assembly_name="HYPER SLASH"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/grappling_hook_3d/plugin.cfg")
+
 [global_group]
 
 hittable=""

@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://cq8ohth4n74jn"]
+[gd_scene load_steps=28 format=3 uid="uid://cq8ohth4n74jn"]
 
 [ext_resource type="Script" uid="uid://dsov3x3by716n" path="res://player.gd" id="1_1jxqw"]
 [ext_resource type="Shader" uid="uid://d2f0ja7uy4ly4" path="res://GPUTrail-main/shaders/trail.gdshader" id="2_dw050"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://crk6pkb7e5rwc" path="res://GPUTrail-main/defaults/texture.tres" id="4_n7ghd"]
 [ext_resource type="Script" uid="uid://42ahix3qhmjt" path="res://GPUTrail-main/GPUTrail3D.gd" id="5_nvl01"]
 [ext_resource type="PackedScene" uid="uid://c54l3yx7hk4x0" path="res://katanaa.tscn" id="6_ivps1"]
+[ext_resource type="Script" uid="uid://dryea4veaeb28" path="res://addons/grappling_hook_3d/src/hook_controller.gd" id="7_1jxqw"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_h2yge"]
 
@@ -53,6 +54,7 @@ material = SubResource("ShaderMaterial_cegan")
 
 [sub_resource type="Animation" id="Animation_1bvp3"]
 length = 0.001
+loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -124,6 +126,30 @@ tracks/5/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector3(0.254494, -1.5447, -1.19133)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("../../hand2:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-0.853804, -0.946091, 0.653437)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("../../hand2:rotation")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.0419014, 0.0408758, -0.557894)]
 }
 
 [sub_resource type="Animation" id="Animation_1jxqw"]
@@ -362,18 +388,135 @@ tracks/1/keys = {
 "values": [Vector3(0.0268824, -0.161406, -0.237278), Vector3(0.0226893, -0.0977384, 0.0436332)]
 }
 
+[sub_resource type="Animation" id="Animation_dw050"]
+resource_name = "hook"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../../hand2:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.266667),
+"transitions": PackedFloat32Array(0.574349, 1),
+"update": 0,
+"values": [Vector3(-0.853804, -0.946091, 0.653437), Vector3(-0.854, -0.946, -0.409)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../../hand2:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.266667),
+"transitions": PackedFloat32Array(0.574349, 1),
+"update": 0,
+"values": [Vector3(0.0419014, 0.0408758, -0.557894), Vector3(0.0419014, 0.0408758, -0.557894)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("..:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.433333),
+"transitions": PackedFloat32Array(1, 1.23114),
+"update": 0,
+"values": [Vector3(0.949586, -0.823269, -0.277224), Vector3(0.949586, -1.09335, 0.169511)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("..:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.433333),
+"transitions": PackedFloat32Array(1, 1.23114),
+"update": 0,
+"values": [Vector3(0.0268824, -0.161406, -0.237278), Vector3(0.0675935, -0.149108, 0.0216451)]
+}
+
+[sub_resource type="Animation" id="Animation_b26j0"]
+resource_name = "unhook"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../../hand2:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.433333),
+"transitions": PackedFloat32Array(1.86607, 0.574349),
+"update": 0,
+"values": [Vector3(-0.854, -0.946, -0.409), Vector3(-0.853804, -0.946091, 0.653437)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../../hand2:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.433333),
+"transitions": PackedFloat32Array(1.86607, 0.574349),
+"update": 0,
+"values": [Vector3(0.0419014, 0.0408758, -0.557894), Vector3(0.0419014, 0.0408758, -0.557894)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("..:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.433333),
+"transitions": PackedFloat32Array(1.23114, 1),
+"update": 0,
+"values": [Vector3(0.949586, -1.09335, 0.169511), Vector3(0.949586, -0.823269, -0.277224)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("..:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.433333),
+"transitions": PackedFloat32Array(1.23114, 1),
+"update": 0,
+"values": [Vector3(0.0675935, -0.149108, 0.0216451), Vector3(0.0268824, -0.161406, -0.237278)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_lquwl"]
 _data = {
 &"RESET": SubResource("Animation_1bvp3"),
 &"attack": SubResource("Animation_1jxqw"),
 &"block": SubResource("Animation_vivmo"),
+&"hook": SubResource("Animation_dw050"),
 &"slash1": SubResource("Animation_w48qg"),
 &"slash2": SubResource("Animation_2cqfq"),
-&"slide": SubResource("Animation_2hs0m")
+&"slide": SubResource("Animation_2hs0m"),
+&"unhook": SubResource("Animation_b26j0")
 }
 
 [node name="player" type="CharacterBody3D"]
 script = ExtResource("1_1jxqw")
+
+[node name="HookController" type="Node" parent="." node_paths=PackedStringArray("hook_raycast", "player_body", "hook_source")]
+script = ExtResource("7_1jxqw")
+hook_raycast = NodePath("../Head/Camera3D/ray")
+player_body = NodePath("..")
+launch_action_name = "grapple"
+retract_action_name = "grapple"
+pull_speed = 200.0
+hook_source = NodePath("../Head/hand2/rope_start")
+rope_stiffness = 0.2
+metadata/_custom_type_script = "uid://dryea4veaeb28"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.77167, 0)
@@ -394,6 +537,7 @@ skeleton = NodePath("../..")
 
 [node name="trail" type="GPUParticles3D" parent="Head/hand"]
 transform = Transform3D(-0.0645966, -0.565198, -0.209984, -0.782683, 0.0121698, 0.045346, -0.390389, 0.0790691, -0.068354, -1.33836, 0.0461617, -0.662615)
+visible = false
 amount = 70
 lifetime = 70.0
 explosiveness = 1.0
@@ -426,8 +570,15 @@ transform = Transform3D(0.846757, 0.530411, 0.0408285, -0.528936, 0.847627, -0.0
 mesh = SubResource("BoxMesh_h2yge")
 skeleton = NodePath("../..")
 
+[node name="rope_start" type="Node3D" parent="Head/hand2"]
+transform = Transform3D(0.928958, -0.324648, -0.177879, 0.312298, 0.945292, -0.094304, 0.198763, 0.032053, 0.979523, -0.0195297, 0.030622, -0.933794)
+
 [node name="Camera3D" type="Camera3D" parent="Head"]
 fov = 90.3
+
+[node name="ray" type="RayCast3D" parent="Head/Camera3D"]
+transform = Transform3D(1, 0, 0, 0, -7.99562e-07, -1, 0, 18.2919, -4.37114e-08, 0, 0, -0.699867)
+debug_shape_custom_color = Color(1, 1, 1, 1)
 
 [node name="dash_refill_timer" type="Timer" parent="."]
 one_shot = true
@@ -445,6 +596,8 @@ wait_time = 0.2
 one_shot = true
 ignore_time_scale = true
 
+[connection signal="hook_detached" from="HookController" to="." method="_on_hook_controller_hook_detached"]
+[connection signal="hook_launched" from="HookController" to="." method="_on_hook_controller_hook_launched"]
 [connection signal="animation_finished" from="Head/hand/AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="timeout" from="dash_refill_timer" to="." method="_on_dash_refill_timer_timeout"]
 [connection signal="timeout" from="dash_time" to="." method="_on_dash_time_timeout"]

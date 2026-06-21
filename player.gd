@@ -29,6 +29,7 @@ const NORMAL_SPEED = 10.0
 var BLOCK_SPEED = 3.0
 const SLIDE_SPEED = 20.0
 const DASH_SPEED = 100.0
+var HOOKING_SPEED = 15.0
 const JUMP_VELOCITY = 12
 const SENS = 0.2
 var direction = Vector3.ZERO
@@ -42,7 +43,6 @@ var is_sliding = false
 var OG_HEAD_Y = 0
 var is_moving = false
 var INIT_POS = Vector3.ZERO
-
 func _ready() -> void:
 
 	change_trail_color(Globals.TRAIL_COLOR)
@@ -60,7 +60,7 @@ func _input(event: InputEvent) -> void:
 
 		rotate_y(-deg_to_rad(event.relative.x * SENS))
 		head.rotate_x(-deg_to_rad(event.relative.y * SENS))
-		head.rotation.x = clamp(head.rotation.x, deg_to_rad(-60), deg_to_rad(60))
+		head.rotation.x = clamp(head.rotation.x, deg_to_rad(-80), deg_to_rad(80))
 	
 	if event.is_action_pressed("attack"):
 	
@@ -82,6 +82,7 @@ func _input(event: InputEvent) -> void:
 
 
 func _physics_process(delta: float) -> void:
+
 	if Input.is_action_just_pressed("ui_cancel"):
 		if !Globals.PAUSED:
 			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
@@ -100,6 +101,11 @@ func _physics_process(delta: float) -> void:
 	if Globals.PAUSED: return
 
 	move_and_slide()
+	
+	if $Head/Camera3D/ray.is_colliding():
+		$"../../../can_hook".scale = lerp($"../../../can_hook".scale, Vector2(0.223, 0.223), 12.0 *delta) 
+	else:
+		$"../../../can_hook".scale = lerp($"../../../can_hook".scale, Vector2(0, 0), 12.0 *delta)
 	
 	if animation_player.name == "attack":
 		var collided_with = katana_model.check_collision()
@@ -136,7 +142,7 @@ func _physics_process(delta: float) -> void:
 		
 	is_moving = get_real_velocity().length() > 5
 	
-	if is_moving and Input.is_action_just_pressed("slide") and is_on_floor() and not is_dashing:
+	if !$HookController.is_hook_launched and is_moving and Input.is_action_just_pressed("slide") and is_on_floor() and not is_dashing:
 		SPEED = SLIDE_SPEED
 		
 		slide_collision.disabled = false
@@ -174,7 +180,7 @@ func _physics_process(delta: float) -> void:
 		if dash_timer.time_left == 0:
 			dash_timer.start()
 
-	if is_moving and Input.is_action_just_pressed("dash") and cur_dashes > 0 and not is_sliding:
+	if !$HookController.is_hook_launched and is_moving and Input.is_action_just_pressed("dash") and cur_dashes > 0 and not is_sliding:
 		SPEED = DASH_SPEED
 		is_dashing = true
 		cur_dashes -= 1
@@ -203,9 +209,7 @@ func _physics_process(delta: float) -> void:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 		velocity.z = move_toward(velocity.z, 0, SPEED)
 	
-	if position.y < -4.35:
-		
-		
+	if position.y < -10 and !$HookController.is_hook_launched:
 		global_position = INIT_POS 
 		velocity = Vector3.ZERO
 		
@@ -227,7 +231,8 @@ func _physics_process(delta: float) -> void:
 	hp_ui.text = str(hp) + "/100"
 	
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
-	if anim_name != "slide":
+	if anim_name != "slide" and anim_name != "hook":
+		
 		animation_player.play("RESET")
 	
 	if anim_name == "attack":
@@ -267,3 +272,14 @@ func _on_sword_color_picker_color_changed(color: Color) -> void:
 
 func _on_check_trail_toggled(toggled_on: bool) -> void:
 	trail.visible = toggled_on
+
+
+func _on_hook_controller_hook_launched() -> void:
+	if $Head/Camera3D/ray.is_colliding():
+		animation_player.play("hook")
+		SPEED = HOOKING_SPEED
+	
+
+func _on_hook_controller_hook_detached() -> void:
+	animation_player.play("unhook")
+	SPEED = NORMAL_SPEED
