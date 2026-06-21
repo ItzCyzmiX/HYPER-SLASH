@@ -268,7 +268,7 @@ presets_visible = false
 layout_mode = 2
 size_flags_horizontal = 4
 button_pressed = true
-text = "trial"
+text = "trail"
 
 [node name="song" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("12_il2jm")

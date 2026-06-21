@@ -55,6 +55,7 @@ func _input(event: InputEvent) -> void:
 
 	if Globals.PAUSED: return
 	
+	
 	if event is InputEventMouseMotion:
 
 		rotate_y(-deg_to_rad(event.relative.x * SENS))

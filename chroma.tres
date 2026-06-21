@@ -1,7 +1,0 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://crvqxpjbyu5rk"]
-
-[ext_resource type="Shader" uid="uid://y77dtxf1cyt0" path="res://chroma.gdshader" id="1_jvu8n"]
-
-[resource]
-shader = ExtResource("1_jvu8n")
-shader_parameter/intensity = 1.0

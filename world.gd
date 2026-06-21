@@ -9,7 +9,7 @@ func spawn_player() -> void:
 	players_container.add_child(player)
 	player.global_position = spawn_points.get_children()[cur_id].global_position
 	player.INIT_POS = spawn_points.get_children()[cur_id].global_position
-
+	$"../Container/VBoxContainer/check_trail".toggled.connect(player._on_check_trail_toggled)
 func _ready() -> void:
 	spawn_player()
 	$"../song".play()

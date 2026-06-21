@@ -29,10 +29,6 @@ window/stretch/aspect="expand"
 
 project/assembly_name="HYPER SLASH"
 
-[editor_plugins]
-
-enabled=PackedStringArray()
-
 [global_group]
 
 hittable=""

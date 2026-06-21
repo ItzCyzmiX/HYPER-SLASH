@@ -422,7 +422,7 @@ libraries = {
 speed_scale = 3.0
 
 [node name="hand2" type="MeshInstance3D" parent="Head"]
-transform = Transform3D(0.227907, 0.973683, -0.000559068, -0.972023, 0.227485, -0.0584923, -0.0568258, 0.0138742, 0.998288, -0.917518, -0.81385, 0.541659)
+transform = Transform3D(0.846757, 0.530411, 0.0408285, -0.528936, 0.847627, -0.0418891, -0.0568258, 0.0138742, 0.998288, -0.853804, -0.946091, 0.653437)
 mesh = SubResource("BoxMesh_h2yge")
 skeleton = NodePath("../..")
 
