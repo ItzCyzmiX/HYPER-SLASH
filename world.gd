@@ -11,4 +11,5 @@ func spawn_player() -> void:
 	player.INIT_POS = spawn_points.get_children()[cur_id].global_position
 
 func _ready() -> void:
-	pass
+	spawn_player()
+	$"../song".play()

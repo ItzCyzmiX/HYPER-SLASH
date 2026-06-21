@@ -1,7 +1,6 @@
-[gd_scene load_steps=25 format=3 uid="uid://dvvs7iohhoa75"]
+[gd_scene load_steps=24 format=3 uid="uid://dvvs7iohhoa75"]
 
 [ext_resource type="Script" uid="uid://m1103wwypse" path="res://world.gd" id="1_k3n1d"]
-[ext_resource type="PackedScene" uid="uid://cq8ohth4n74jn" path="res://player.tscn" id="2_2o6r5"]
 [ext_resource type="Texture2D" uid="uid://ctficqmxak4fq" path="res://texture_01.png" id="2_k3n1d"]
 [ext_resource type="Texture2D" uid="uid://bexk3cl5f0tut" path="res://Gods-and-Idols-2012-04-11-21-41-43-84.jpg" id="3_70uel"]
 [ext_resource type="FontFile" uid="uid://db0gd5csnvc2k" path="res://healzone-by-thUg-inc.ttf" id="4_hiqwa"]
@@ -73,9 +72,6 @@ shader_parameter/vinnette_outer_radius = 1.0
 script = ExtResource("1_k3n1d")
 
 [node name="players" type="Node3D" parent="env"]
-
-[node name="player" parent="env/players" instance=ExtResource("2_2o6r5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.636032, 5.65809)
 
 [node name="stage" type="Node3D" parent="env"]
 
@@ -187,7 +183,6 @@ mouse_filter = 2
 texture = SubResource("CanvasTexture_ycdy4")
 
 [node name="cross" type="Sprite2D" parent="."]
-visible = false
 position = Vector2(575, 323)
 scale = Vector2(0.222826, 0.222826)
 texture = ExtResource("9_26xuy")
@@ -195,13 +190,14 @@ region_enabled = true
 region_rect = Rect2(3752, 832, 184, 184)
 
 [node name="flash" type="ColorRect" parent="."]
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-color = Color(1, 1, 1, 0)
+color = Color(1, 1, 1, 0.482353)
 
 [node name="Container" type="CenterContainer" parent="."]
 visible = false
