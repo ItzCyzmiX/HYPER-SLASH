@@ -66,15 +66,13 @@ bg_color = Color(0, 0, 0, 0.458824)
 [node name="env" type="Node3D" parent="."]
 script = ExtResource("1_k3n1d")
 
+[node name="stage" parent="env" instance=ExtResource("2_k3n1d")]
+
 [node name="players" type="Node3D" parent="env"]
 
-[node name="stage" parent="env/players" instance=ExtResource("2_k3n1d")]
+[node name="spawn_point" type="Node3D" parent="env"]
 
-[node name="stage" type="Node3D" parent="env"]
-
-[node name="spawn_points" type="Node3D" parent="env"]
-
-[node name="Marker3D" type="Marker3D" parent="env/spawn_points"]
+[node name="Marker3D" type="Marker3D" parent="env/spawn_point"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.222179, 2.60617, 5.33349)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="env"]

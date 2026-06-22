@@ -256,6 +256,58 @@ tracks/3/keys = {
 "values": [Vector3(0.254818, -1.55858, -1.19206), Vector3(0.865683, -1.34041, -1.19206), Vector3(0.254818, -1.55858, -1.19206)]
 }
 
+[sub_resource type="Animation" id="Animation_dw050"]
+resource_name = "hook"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../../hand2:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.266667),
+"transitions": PackedFloat32Array(0.574349, 1),
+"update": 0,
+"values": [Vector3(-0.853804, -0.946091, 0.653437), Vector3(-0.854, -0.946, -0.409)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../../hand2:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.266667),
+"transitions": PackedFloat32Array(0.574349, 1),
+"update": 0,
+"values": [Vector3(0.0419014, 0.0408758, -0.557894), Vector3(0.0419014, 0.0408758, -0.557894)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("..:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.433333),
+"transitions": PackedFloat32Array(1, 1.23114),
+"update": 0,
+"values": [Vector3(0.949586, -0.823269, -0.277224), Vector3(0.949586, -1.09335, 0.169511)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("..:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.433333),
+"transitions": PackedFloat32Array(1, 1.23114),
+"update": 0,
+"values": [Vector3(0.0268824, -0.161406, -0.237278), Vector3(0.0675935, -0.149108, 0.0216451)]
+}
+
 [sub_resource type="Animation" id="Animation_w48qg"]
 resource_name = "slash1"
 length = 2.0
@@ -388,58 +440,6 @@ tracks/1/keys = {
 "values": [Vector3(0.0268824, -0.161406, -0.237278), Vector3(0.0226893, -0.0977384, 0.0436332)]
 }
 
-[sub_resource type="Animation" id="Animation_dw050"]
-resource_name = "hook"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("../../hand2:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.266667),
-"transitions": PackedFloat32Array(0.574349, 1),
-"update": 0,
-"values": [Vector3(-0.853804, -0.946091, 0.653437), Vector3(-0.854, -0.946, -0.409)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("../../hand2:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.266667),
-"transitions": PackedFloat32Array(0.574349, 1),
-"update": 0,
-"values": [Vector3(0.0419014, 0.0408758, -0.557894), Vector3(0.0419014, 0.0408758, -0.557894)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("..:position")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.433333),
-"transitions": PackedFloat32Array(1, 1.23114),
-"update": 0,
-"values": [Vector3(0.949586, -0.823269, -0.277224), Vector3(0.949586, -1.09335, 0.169511)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("..:rotation")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.433333),
-"transitions": PackedFloat32Array(1, 1.23114),
-"update": 0,
-"values": [Vector3(0.0268824, -0.161406, -0.237278), Vector3(0.0675935, -0.149108, 0.0216451)]
-}
-
 [sub_resource type="Animation" id="Animation_b26j0"]
 resource_name = "unhook"
 length = 0.5
@@ -566,7 +566,7 @@ libraries = {
 speed_scale = 3.0
 
 [node name="hand2" type="MeshInstance3D" parent="Head"]
-transform = Transform3D(0.846757, 0.530411, 0.0408285, -0.528936, 0.847627, -0.0418891, -0.0568258, 0.0138742, 0.998288, -0.853804, -0.946091, 0.653437)
+transform = Transform3D(0.846757, 0.530411, 0.0408286, -0.528936, 0.847627, -0.0418891, -0.0568258, 0.0138742, 0.998288, -0.853804, -0.946091, 0.653437)
 mesh = SubResource("BoxMesh_h2yge")
 skeleton = NodePath("../..")
 
@@ -593,6 +593,11 @@ one_shot = true
 
 [node name="hitstop_time" type="Timer" parent="."]
 wait_time = 0.2
+one_shot = true
+ignore_time_scale = true
+
+[node name="slide_queu_time" type="Timer" parent="."]
+wait_time = 0.5
 one_shot = true
 ignore_time_scale = true
 

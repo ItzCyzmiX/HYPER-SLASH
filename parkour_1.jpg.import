@@ -2,17 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dgql3c2fr6s3s"
-path.s3tc="res://.godot/imported/texture_02.png-08f8842f540b881f4ec04b0179b481eb.s3tc.ctex"
+uid="uid://daefvqvyald5"
+path.s3tc="res://.godot/imported/parkour_1.jpg-9be7c9e645683b683afb58f49c43f9c2.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
+generator_parameters={
+"md5": "4ea1a87417b3df021f9c35421ee9b27c"
+}
 
 [deps]
 
-source_file="res://texture_02.png"
-dest_files=["res://.godot/imported/texture_02.png-08f8842f540b881f4ec04b0179b481eb.s3tc.ctex"]
+source_file="res://parkour_1.jpg"
+dest_files=["res://.godot/imported/parkour_1.jpg-9be7c9e645683b683afb58f49c43f9c2.s3tc.ctex"]
 
 [params]
 

@@ -1,70 +1,26 @@
-[gd_scene load_steps=5 format=3 uid="uid://bj54nvjtor2k3"]
+[gd_scene load_steps=2 format=3 uid="uid://bj54nvjtor2k3"]
 
-[ext_resource type="Texture2D" uid="uid://ctficqmxak4fq" path="res://texture_01.png" id="1_rnkuw"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_efxa6"]
-albedo_texture = ExtResource("1_rnkuw")
-uv1_triplanar = true
-uv1_world_triplanar = true
-
-[sub_resource type="BoxMesh" id="BoxMesh_dg77c"]
-material = SubResource("StandardMaterial3D_efxa6")
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_4c57u"]
+[ext_resource type="PackedScene" uid="uid://cccf0e6fopq2r" path="res://platform.tscn" id="1_6eo5e"]
 
 [node name="stage" type="Node3D"]
 
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
-transform = Transform3D(5, 0, 0, 0, 1, 0, 0, 0, 5, 0, 0, 2.86518)
+[node name="first_floor" parent="." instance=ExtResource("1_6eo5e")]
+transform = Transform3D(-49.2, 0, 0, 0, 1, 0, 0, 0, 66.528, 0, 0, 2.86518)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.19209e-07, 0.243505, 0.469591)
-mesh = SubResource("BoxMesh_dg77c")
+[node name="platform2" parent="." instance=ExtResource("1_6eo5e")]
+transform = Transform3D(5, 0, 0, 0, 1, 0, 0, 0, 5, 0, 12, 78.8652)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.243094, 0.471803)
-shape = SubResource("BoxShape3D_4c57u")
+[node name="platform4" parent="." instance=ExtResource("1_6eo5e")]
+transform = Transform3D(5, 0, 0, 0, 1, 0, 0, 0, 5, 0, 12, 107.865)
 
-[node name="StaticBody3D2" type="StaticBody3D" parent="."]
-transform = Transform3D(-2.18557e-07, -1, 0, 5, -4.37114e-08, 0, 0, 0, 5, 2.8004, 6.19905, 11.8652)
+[node name="platform6" parent="." instance=ExtResource("1_6eo5e")]
+transform = Transform3D(5, 0, 0, 0, 0.866025, 2.5, 0, -0.5, 4.33013, 0, -2, 137.865)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D2"]
-transform = Transform3D(1, 8.88178e-16, 0, 0, 1, 0, 0, 0, 1, 0, 0.243505, 1.36817)
-mesh = SubResource("BoxMesh_dg77c")
+[node name="platform7" parent="." instance=ExtResource("1_6eo5e")]
+transform = Transform3D(5, 0, 0, 0, 1, 0, 0, 0, 23.5991, 0, 0.327104, 142.415)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D2"]
-transform = Transform3D(1, 8.88178e-16, 0, 0, 1, 0, 0, 0, 1, 0, 0.243094, 1.37038)
-shape = SubResource("BoxShape3D_4c57u")
+[node name="platform9" parent="." instance=ExtResource("1_6eo5e")]
+transform = Transform3D(5, 0, 0, 0, 1, 0, 0, 0, 5, 0, 4, 182.865)
 
-[node name="StaticBody3D4" type="StaticBody3D" parent="."]
-transform = Transform3D(-2.18557e-07, -1, 0, 5, -4.37114e-08, 0, 0, 0, 5, -10.1996, 6.19905, 20.8652)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D4"]
-transform = Transform3D(1, 8.88178e-16, 0, 0, 1, 0, 0, 0, 1, 0, 0.243505, 1.77874)
-mesh = SubResource("BoxMesh_dg77c")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D4"]
-transform = Transform3D(1, 8.88178e-16, 0, 0, 1, 0, 0, 0, 1, 0, 0.243094, 1.78095)
-shape = SubResource("BoxShape3D_4c57u")
-
-[node name="StaticBody3D3" type="StaticBody3D" parent="."]
-transform = Transform3D(5, 0, 0, 0, 1, 0, 0, 0, 5, -4, 13, 32.8652)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D3"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.19209e-07, 0.243505, 1.36817)
-mesh = SubResource("BoxMesh_dg77c")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D3"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.243094, 1.37038)
-shape = SubResource("BoxShape3D_4c57u")
-
-[node name="StaticBody3D5" type="StaticBody3D" parent="."]
-transform = Transform3D(5, 0, 0, 0, 1, 0, 0, 0, 5, -4, 2, 55.8652)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D5"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.19209e-07, 0.243505, 1.36817)
-mesh = SubResource("BoxMesh_dg77c")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D5"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.243094, 1.37038)
-shape = SubResource("BoxShape3D_4c57u")
+[node name="platform10" parent="." instance=ExtResource("1_6eo5e")]
+transform = Transform3D(5, 0, 0, 0, 1, 0, 0, 0, 5, 0, 4, 211.865)

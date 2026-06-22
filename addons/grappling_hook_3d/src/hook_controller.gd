@@ -24,6 +24,7 @@ extends Node
 
 var is_hook_launched: bool = false
 var _hook_model: Node3D = null
+var _held: bool = false
 var hook_target_normal: Vector3 = Vector3.ZERO
 var hook_target_node: Marker3D = null
 var rope_length: float = 0.0
@@ -36,18 +37,20 @@ signal hook_detached()
 
 func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("grapple"):
-		hook_launched.emit()
-		
-		match is_hook_launched:
-			false: _launch_hook()
-			true: _retract_hook()
-	
+		_held = true
+
+	if Input.is_action_just_released("grapple"):
+		_held = false
+		if is_hook_launched:
+			_retract_hook()
+
+	# Keep trying to launch every frame while held and not yet hooked
+	if _held and not is_hook_launched:
+		_launch_hook()
+
 	if is_hook_launched:
 		_handle_hook(delta)
-		
-		if Input.is_action_just_released("grapple"):
-			_retract_hook()
-		
+
 		if Input.is_action_just_pressed("jump"):
 			player_body.velocity.y += player_body.JUMP_VELOCITY
 			_retract_hook()
@@ -83,7 +86,7 @@ func _retract_hook() -> void:
 		hook_target_node.queue_free()
 	
 	_hook_model.queue_free()
-	
+	_held = false
 	hook_detached.emit()
 
 

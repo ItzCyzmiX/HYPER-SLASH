@@ -1,4 +1,4 @@
-[gd_scene load_steps=85 format=3 uid="uid://cbsuceaj86wsj"]
+[gd_scene load_steps=86 format=3 uid="uid://cbsuceaj86wsj"]
 
 [ext_resource type="Script" uid="uid://bnm8fun1og7sy" path="res://main_menu.gd" id="1_w00eq"]
 [ext_resource type="FontFile" uid="uid://3e82qb88pgm0" path="res://MajorMonoDisplay-Regular.ttf" id="2_k834r"]
@@ -39,6 +39,7 @@
 [ext_resource type="Texture2D" uid="uid://bm4ti0mebx6is" path="res://hyper_slash_title_frames/hyper_slash_title_080.png" id="82_outvh"]
 [ext_resource type="Texture2D" uid="uid://bs2u01jbj7ktc" path="res://hyper_slash_title_frames/hyper_slash_title_081.png" id="83_tm14w"]
 [ext_resource type="Texture2D" uid="uid://22sgdlsus4bu" path="res://hyper_slash_title_frames/hyper_slash_title_082.png" id="84_la6ng"]
+[ext_resource type="PackedScene" uid="uid://dlwg3qomuq2jk" path="res://transition.tscn" id="84_rw6qo"]
 [ext_resource type="Texture2D" uid="uid://d3uvx32nuai17" path="res://hyper_slash_title_frames/hyper_slash_title_083.png" id="85_1hftn"]
 [ext_resource type="Texture2D" uid="uid://b5572di5die3o" path="res://hyper_slash_title_frames/hyper_slash_title_084.png" id="86_be05d"]
 [ext_resource type="Texture2D" uid="uid://b7c2ujti50ak0" path="res://hyper_slash_title_frames/hyper_slash_title_085.png" id="87_ilbfu"]
@@ -392,6 +393,9 @@ grow_vertical = 2
 scale = Vector2(0.9, 0.8)
 sprite_frames = SubResource("SpriteFrames_7mmqq")
 frame_progress = 0.452409
+
+[node name="Transition" parent="." instance=ExtResource("84_rw6qo")]
+mouse_filter = 2
 
 [connection signal="mouse_entered" from="VBoxContainer/play" to="." method="_on_play_mouse_entered"]
 [connection signal="mouse_exited" from="VBoxContainer/play" to="." method="_on_play_mouse_exited"]
