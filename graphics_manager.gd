@@ -3,7 +3,7 @@ extends Control
 var current_preset := "mid"
 var current_window_size := "windowed"
 const SAVE_PATH = "user://graphics.cfg"
-
+var default_size = Vector2i(1280, 720)
 const PRESETS := {
 	"low": {
 		"msaa"            : RenderingServer.VIEWPORT_MSAA_DISABLED,
@@ -70,16 +70,23 @@ func _save() -> void:
 
 func set_window_size(size: String) -> void:
 	if size == "windowed":
-		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_MINIMIZED)
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+		DisplayServer.window_set_size(default_size)
+		
+		DisplayServer.window_set_position( 
+			(DisplayServer.screen_get_size() / 2) - 
+			(default_size / 2)
+		)
 		
 		current_window_size = size
 	elif size == "fullscreen":
-		DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_BORDERLESS, false)
+		DisplayServer.window_set_position(Vector2i(0, 0))
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 		
 		current_window_size = size
 	elif size == "borderless":
 		DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_BORDERLESS, true)
+		DisplayServer.window_set_position(Vector2i(0, 0))
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 		DisplayServer.window_set_size(DisplayServer.screen_get_size())
 	

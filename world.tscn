@@ -83,13 +83,12 @@ transform = Transform3D(1, 0, 0, 0, -0.0463045, 0.998927, 0, -0.998927, -0.04630
 
 [node name="GUI" type="Control" parent="."]
 layout_mode = 3
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+pivot_offset = Vector2(640, 360)
 mouse_filter = 2
 
 [node name="HP" type="RichTextLabel" parent="GUI"]
@@ -98,46 +97,50 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -112.0
-offset_top = -320.0
-offset_right = 4.0
-offset_bottom = -280.0
+offset_left = -59.5
+offset_right = 59.5
+offset_bottom = 39.0
 grow_horizontal = 2
 scale = Vector2(1.88, 1.44)
+pivot_offset = Vector2(60.4487, 0)
 theme_override_fonts/normal_font = ExtResource("4_hiqwa")
 text = "100/100"
 fit_content = true
 scroll_active = false
+scroll_following = true
 
 [node name="DASHES" type="RichTextLabel" parent="GUI"]
 texture_filter = 5
 layout_mode = 1
-offset_left = -498.0
-offset_top = 298.0
-offset_right = -480.0
-offset_bottom = 461.0
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = -143.947
+offset_top = -257.87
+offset_right = -118.947
+offset_bottom = -150.87
+grow_vertical = 0
 rotation = 3.14159
 scale = Vector2(2.6, 1.991)
+pivot_offset = Vector2(71.9733, 75.4348)
 theme_override_fonts/normal_font = ExtResource("4_hiqwa")
 text = "XXX"
 fit_content = true
 scroll_active = false
+horizontal_alignment = 1
 
 [node name="SPEED" type="TextureProgressBar" parent="GUI"]
 layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
+anchors_preset = -1
+anchor_left = 0.46
+anchor_top = 0.3
 anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = 493.0
-offset_top = 208.0
-offset_right = 1863.0
-offset_bottom = 366.0
-grow_horizontal = 0
-grow_vertical = 2
-rotation = -1.57079
+anchor_bottom = 0.3
+offset_right = 1370.0
+offset_bottom = 158.0
+rotation = -1.5708
 scale = Vector2(0.3, 0.3)
+pivot_offset = Vector2(650, 160)
 texture_under = ExtResource("5_2u3nc")
 texture_progress = ExtResource("6_udxuc")
 texture_progress_offset = Vector2(60, 25)
