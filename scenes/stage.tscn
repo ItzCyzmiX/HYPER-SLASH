@@ -1,0 +1,26 @@
+[gd_scene load_steps=2 format=3 uid="uid://bj54nvjtor2k3"]
+
+[ext_resource type="PackedScene" uid="uid://cccf0e6fopq2r" path="res://scenes/platform.tscn" id="1_6eo5e"]
+
+[node name="stage" type="Node3D"]
+
+[node name="first_floor" parent="." instance=ExtResource("1_6eo5e")]
+transform = Transform3D(-49.2, 0, 0, 0, 1, 0, 0, 0, 66.528, 0, 0, 2.86518)
+
+[node name="platform2" parent="." instance=ExtResource("1_6eo5e")]
+transform = Transform3D(5, 0, 0, 0, 1, 0, 0, 0, 5, 0, 12, 78.8652)
+
+[node name="platform4" parent="." instance=ExtResource("1_6eo5e")]
+transform = Transform3D(5, 0, 0, 0, 1, 0, 0, 0, 5, 0, 12, 107.865)
+
+[node name="platform6" parent="." instance=ExtResource("1_6eo5e")]
+transform = Transform3D(5, 0, 0, 0, 0.866025, 2.5, 0, -0.5, 4.33013, 0, -2, 137.865)
+
+[node name="platform7" parent="." instance=ExtResource("1_6eo5e")]
+transform = Transform3D(5, 0, 0, 0, 1, 0, 0, 0, 23.5991, 0, 0.327104, 142.415)
+
+[node name="platform9" parent="." instance=ExtResource("1_6eo5e")]
+transform = Transform3D(5, 0, 0, 0, 1, 0, 0, 0, 5, 0, 4, 182.865)
+
+[node name="platform10" parent="." instance=ExtResource("1_6eo5e")]
+transform = Transform3D(5, 0, 0, 0, 1, 0, 0, 0, 5, 0, 4, 211.865)

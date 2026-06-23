@@ -8,17 +8,27 @@
 
 config_version=5
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
 config/name="HYPER SLASH"
 run/main_scene="uid://ukkkx2tuiuap"
-config/features=PackedStringArray("4.4", "Forward Plus")
+config/features=PackedStringArray("4.7", "Forward Plus")
+boot_splash/bg_color=Color(0, 0, 0, 1)
+boot_splash/show_image=false
 config/icon="res://icon.svg"
+
+[audio]
+
+buses/default_bus_layout="res://defaults/default_bus_layout.tres"
 
 [autoload]
 
-Globals="*res://globals.gd"
-GraphicsManager="*res://graphics_manager.gd"
+Globals="*res://scripts/globals.gd"
+GraphicsManager="*res://scripts/graphics_manager.gd"
 
 [display]
 
