@@ -15,9 +15,20 @@ func spawn_player() -> void:
 	$"../Container/VBoxContainer/VBoxContainer/HBoxContainer/sword_color_picker".color_changed.connect(player._on_sword_color_picker_color_changed)
 	
 func _ready() -> void:
+	var p = GraphicsManager.get_preset()
+	var env : Environment = $WorldEnvironment.environment
+	
+	if env:
+		env.ssao_enabled  = p["ssao"]
+		env.ssil_enabled  = p["ssil"]
+		env.ssr_enabled   = p["ssr"]
+		env.glow_enabled  = p["glow"]
+		if p.has("sdfgi"):
+			env.sdfgi_enabled = p["sdfgi"]
+	
 	var transition = transition_pack.instantiate()
 	add_child(transition)
 	transition.set_animation('fade-out')
 	spawn_player()
-	transition.play = true
+	transition.play()
 	$"../song".play()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=86 format=3 uid="uid://cbsuceaj86wsj"]
+[gd_scene load_steps=87 format=3 uid="uid://cbsuceaj86wsj"]
 
 [ext_resource type="Script" uid="uid://bnm8fun1og7sy" path="res://main_menu.gd" id="1_w00eq"]
 [ext_resource type="FontFile" uid="uid://3e82qb88pgm0" path="res://MajorMonoDisplay-Regular.ttf" id="2_k834r"]
@@ -84,6 +84,8 @@
 [ext_resource type="Texture2D" uid="uid://b6f40u2f3defc" path="res://hyper_slash_title_frames/hyper_slash_title_124.png" id="126_agmwv"]
 [ext_resource type="Texture2D" uid="uid://c508m2kduwwi8" path="res://hyper_slash_title_frames/hyper_slash_title_125.png" id="127_lstby"]
 [ext_resource type="Texture2D" uid="uid://du86r62qaj5xc" path="res://hyper_slash_title_frames/hyper_slash_title_126.png" id="128_vqfhk"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rw6qo"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_7mmqq"]
 animations = [{
@@ -365,7 +367,18 @@ theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 2
 theme_override_fonts/font = ExtResource("2_k834r")
 theme_override_font_sizes/font_size = 40
+theme_override_styles/focus = SubResource("StyleBoxEmpty_rw6qo")
 text = "play"
+flat = true
+
+[node name="settings" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("2_k834r")
+theme_override_font_sizes/font_size = 40
+theme_override_styles/focus = SubResource("StyleBoxEmpty_rw6qo")
+text = "settings"
 flat = true
 
 [node name="quit" type="Button" parent="VBoxContainer"]
@@ -374,6 +387,7 @@ theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 2
 theme_override_fonts/font = ExtResource("2_k834r")
 theme_override_font_sizes/font_size = 40
+theme_override_styles/focus = SubResource("StyleBoxEmpty_rw6qo")
 text = "quit"
 flat = true
 
@@ -400,6 +414,9 @@ mouse_filter = 2
 [connection signal="mouse_entered" from="VBoxContainer/play" to="." method="_on_play_mouse_entered"]
 [connection signal="mouse_exited" from="VBoxContainer/play" to="." method="_on_play_mouse_exited"]
 [connection signal="pressed" from="VBoxContainer/play" to="." method="_on_play_pressed"]
+[connection signal="mouse_entered" from="VBoxContainer/settings" to="." method="_on_settings_mouse_entered"]
+[connection signal="mouse_exited" from="VBoxContainer/settings" to="." method="_on_settings_mouse_exited"]
+[connection signal="pressed" from="VBoxContainer/settings" to="." method="_on_settings_pressed"]
 [connection signal="mouse_entered" from="VBoxContainer/quit" to="." method="_on_quit_mouse_entered"]
 [connection signal="mouse_exited" from="VBoxContainer/quit" to="." method="_on_quit_mouse_exited"]
 [connection signal="pressed" from="VBoxContainer/quit" to="." method="_on_quit_pressed"]

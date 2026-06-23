@@ -8,6 +8,7 @@ func _ready() -> void:
 	transition.connect("anim_finished", switch_scene)
 	
 func _on_quit_mouse_entered() -> void:
+	
 	$VBoxContainer/quit.text = "QUIT"
 
 func _on_quit_mouse_exited() -> void:
@@ -23,7 +24,18 @@ func _on_play_mouse_exited() -> void:
 	$VBoxContainer/play.text = "play"
 
 func _on_play_pressed() -> void:
-	transition.play = true
+	transition.play()
 	
 func switch_scene():
 	get_tree().change_scene_to_file("res://world.tscn")
+
+
+func _on_settings_mouse_entered() -> void:
+	$VBoxContainer/settings.text = "SETTINGS"
+
+
+func _on_settings_mouse_exited() -> void:
+	$VBoxContainer/settings.text = "settings"
+
+func _on_settings_pressed() -> void:
+	get_tree().change_scene_to_file("res://settings.tscn")

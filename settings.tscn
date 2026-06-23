@@ -1,0 +1,124 @@
+[gd_scene load_steps=6 format=3 uid="uid://6w6s3hwxbarn"]
+
+[ext_resource type="Script" uid="uid://cprue25fd6632" path="res://settings.gd" id="1_nkug2"]
+[ext_resource type="FontFile" uid="uid://3e82qb88pgm0" path="res://MajorMonoDisplay-Regular.ttf" id="1_x2hje"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_nkug2"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3ykye"]
+bg_color = Color(0.352941, 0.352941, 0.352941, 0.52549)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gc0em"]
+
+[node name="Settings" type="Control"]
+texture_filter = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_nkug2")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 30
+
+[node name="quality" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Label" type="Label" parent="VBoxContainer/quality"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("1_x2hje")
+text = "// graphics quality"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="quality_list" type="OptionButton" parent="VBoxContainer/quality"]
+texture_filter = 3
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 1
+theme_override_constants/h_separation = 90
+theme_override_fonts/font = ExtResource("1_x2hje")
+flat = true
+selected = 0
+allow_reselect = true
+item_count = 3
+popup/item_0/text = "low"
+popup/item_0/id = 0
+popup/item_1/text = "mid"
+popup/item_1/id = 1
+popup/item_2/text = "high"
+popup/item_2/id = 2
+
+[node name="screen" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 80
+
+[node name="Label" type="Label" parent="VBoxContainer/screen"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("1_x2hje")
+text = "// window size"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="screen_list" type="OptionButton" parent="VBoxContainer/screen"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 1
+theme_override_constants/h_separation = 20
+theme_override_fonts/font = ExtResource("1_x2hje")
+flat = true
+selected = 0
+allow_reselect = true
+item_count = 3
+popup/item_0/text = "windowed"
+popup/item_0/id = 0
+popup/item_1/text = "fullscreen"
+popup/item_1/id = 1
+popup/item_2/text = "borderless"
+popup/item_2/id = 2
+
+[node name="vsync" type="CheckButton" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("1_x2hje")
+text = "// vsync "
+icon_alignment = 1
+vertical_icon_alignment = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="main menu" type="Button" parent="VBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("1_x2hje")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_nkug2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_3ykye")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_gc0em")
+text = "main menu"
+
+[connection signal="item_selected" from="VBoxContainer/quality/quality_list" to="." method="_on_quality_list_item_selected"]
+[connection signal="item_selected" from="VBoxContainer/screen/screen_list" to="." method="_on_screen_list_item_selected"]
+[connection signal="toggled" from="VBoxContainer/vsync" to="." method="_on_vsync_toggled"]
+[connection signal="pressed" from="VBoxContainer/VBoxContainer/main menu" to="." method="_on_main_menu_pressed"]

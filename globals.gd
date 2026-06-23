@@ -7,4 +7,3 @@ var IN_GAME = true
 
 
 signal trail_change()
-	

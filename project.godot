@@ -18,12 +18,14 @@ config/icon="res://icon.svg"
 [autoload]
 
 Globals="*res://globals.gd"
+GraphicsManager="*res://graphics_manager.gd"
 
 [display]
 
 window/subwindows/embed_subwindows=false
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
+window/vsync/vsync_mode=0
 
 [dotnet]
 
@@ -102,5 +104,9 @@ pseudolocalization/subwindows/embed_subwindows=false
 [rendering]
 
 textures/default_filters/anisotropic_filtering_level=0
+environment/ssao/quality=0
+environment/ssil/quality=0
 environment/glow/upscale_mode=0
+global_illumination/sdfgi/frames_to_converge=3
+environment/volumetric_fog/use_filter=0
 environment/defaults/default_clear_color=Color(0, 0, 0, 1)

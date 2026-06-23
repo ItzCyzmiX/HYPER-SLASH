@@ -17,7 +17,7 @@ extends CharacterBody3D
 @onready var flash: ColorRect = $"../../../flash"
 @onready var trail: GPUTrail3D = $Head/hand/trail
 @onready var katana_model: Node3D = $Head/hand/katana/katan_model
-@onready var crosshair: Sprite2D = $"../../../cross"
+@onready var crosshair: Sprite2D = $"../../../crosshair/cross"
 @onready var slide_queu_time: Timer = $slide_queu_time
 
 var slide_queued= false
@@ -54,26 +54,6 @@ func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 func _input(event: InputEvent) -> void:
-	if Globals.PAUSED: return
-	
-	if event is InputEventMouseMotion:
-		rotate_y(-deg_to_rad(event.relative.x * SENS))
-		head.rotate_x(-deg_to_rad(event.relative.y * SENS))
-		head.rotation.x = clamp(head.rotation.x, deg_to_rad(-80), deg_to_rad(80))
-	
-	if event.is_action_pressed("attack"):
-		if not is_blocking:
-			animation_player.stop()
-			animation_player.play("attack")
-			is_attacking = true
-			
-	if event.is_action_pressed("block"):
-		if animation_player.is_playing():
-			animation_player.stop()
-		animation_player.play("block")
-		is_blocking = true
-
-func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("ui_cancel"):
 		if !Globals.PAUSED:
 			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
@@ -90,13 +70,76 @@ func _physics_process(delta: float) -> void:
 			AudioServer.remove_bus_effect(AudioServer.get_bus_index("Song"), 0)
 
 	if Globals.PAUSED: return
+	
+	if event is InputEventMouseMotion:
+		rotate_y(-deg_to_rad(event.relative.x * SENS))
+		head.rotate_x(-deg_to_rad(event.relative.y * SENS))
+		head.rotation.x = clamp(head.rotation.x, deg_to_rad(-80), deg_to_rad(80))
+	
+	if event.is_action_pressed("attack"):
+		if not is_blocking:
+			animation_player.stop()
+			animation_player.play("attack")
+			is_attacking = true
+			
+	if event.is_action_pressed("block"):
+		if animation_player.is_playing():
+			animation_player.stop()
+		
+		animation_player.play("block")
+		is_blocking = true
+		
+	if !$HookController.is_hook_launched and is_moving and Input.is_action_just_pressed("slide") and not is_dashing:
+		if is_on_floor():
+			SPEED = SLIDE_SPEED
+			slide_collision.disabled = false
+			normal_collision.disabled = true 
+			
+			is_sliding = true
+			speedlines.visible = true
+			animation_player.play("slide")
+			
+		else:
+			slide_queued= true
+			
+	if Input.is_action_just_released("slide") and is_sliding:
+		slide_collision.disabled = true 
+		normal_collision.disabled = false 
+	
+		SPEED = NORMAL_SPEED
+		animation_player.play("RESET")
+		is_sliding = false
 
-	move_and_slide()
+	if Input.is_action_pressed("jump") and is_on_floor():
+		velocity.y = JUMP_VELOCITY + (JUMP_VELOCITY/2)*int(is_sliding)
+		if is_sliding:
+			slide_collision.disabled = true 
+			normal_collision.disabled = false 
+		
+			SPEED = NORMAL_SPEED
+			animation_player.play("RESET")
+			is_sliding = false
+	
+	
+	if !$HookController.is_hook_launched and is_moving and Input.is_action_just_pressed("dash") and cur_dashes > 0 and not is_sliding:
+		SPEED = DASH_SPEED
+		is_dashing = true
+		cur_dashes -= 1
+		camera.fov = DASH_FOV
+		control_ui.scale = Vector2(1.05, 1)
+		dashing_time.start()
+
+
+func _physics_process(delta: float) -> void:
+
+	if Globals.PAUSED: return
+
+	is_moving = get_real_velocity().length() > 5
 	
 	if $Head/Camera3D/ray.is_colliding():
-		$"../../../can_hook".scale = lerp($"../../../can_hook".scale, Vector2(0.223, 0.223), 12.0 * delta) 
+		$"../../../crosshair/can_hook".scale = lerp($"../../../crosshair/can_hook".scale, Vector2(0.223, 0.223), 12.0 * delta) 
 	else:
-		$"../../../can_hook".scale = lerp($"../../../can_hook".scale, Vector2(0, 0), 12.0 * delta)
+		$"../../../crosshair/can_hook".scale = lerp($"../../../crosshair/can_hook".scale, Vector2(0, 0), 12.0 * delta)
 	
 	if animation_player.name == "attack":
 		var collided_with = katana_model.check_collision()
@@ -112,9 +155,7 @@ func _physics_process(delta: float) -> void:
 				Engine.time_scale = 0.01
 				
 				i.queue_free()
-	
-
-	
+		
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 		var tween = create_tween()
@@ -142,22 +183,7 @@ func _physics_process(delta: float) -> void:
 	elif velocity.y == 0:
 		var tween = create_tween()
 		tween.tween_property(camera, "v_offset", 0.0, 0.1).set_ease(Tween.EASE_IN)
-		
-	is_moving = get_real_velocity().length() > 5
-	
-	if !$HookController.is_hook_launched and is_moving and Input.is_action_just_pressed("slide") and not is_dashing:
-		if is_on_floor():
-			SPEED = SLIDE_SPEED
-			slide_collision.disabled = false
-			normal_collision.disabled = true 
-			
-			is_sliding = true
-			speedlines.visible = true
-			animation_player.play("slide")
-			
-		else:
-			slide_queued= true
-	
+
 	if is_sliding:
 		if !is_moving:
 			is_sliding = false  
@@ -171,36 +197,11 @@ func _physics_process(delta: float) -> void:
 		head.position.y = lerpf(head.position.y, OG_HEAD_Y, 20.0 * delta)	
 		control_ui.scale = lerp(control_ui.scale, Vector2(1.0, 1.0), 20.0 * delta)
 
-	if Input.is_action_just_released("slide") and is_sliding:
-		slide_collision.disabled = true 
-		normal_collision.disabled = false 
-	
-		SPEED = NORMAL_SPEED
-		animation_player.play("RESET")
-		is_sliding = false
 
-	if Input.is_action_pressed("jump") and is_on_floor():
-		velocity.y = JUMP_VELOCITY + (JUMP_VELOCITY/2)*int(is_sliding)
-		if is_sliding:
-			slide_collision.disabled = true 
-			normal_collision.disabled = false 
-		
-			SPEED = NORMAL_SPEED
-			animation_player.play("RESET")
-			is_sliding = false
-		
 	if cur_dashes == 0:
 		if dash_timer.time_left == 0:
 			dash_timer.start()
 
-	if !$HookController.is_hook_launched and is_moving and Input.is_action_just_pressed("dash") and cur_dashes > 0 and not is_sliding:
-		SPEED = DASH_SPEED
-		is_dashing = true
-		cur_dashes -= 1
-		camera.fov = DASH_FOV
-		control_ui.scale = Vector2(1.05, 1)
-		dashing_time.start()
-	
 	if is_dashing:		
 		SPEED = lerp(SPEED, NORMAL_SPEED, 8.0 * delta)
 		camera.fov = lerp(camera.fov, NORMAL_FOV, delta - 0.3)
@@ -255,10 +256,10 @@ func _physics_process(delta: float) -> void:
 			camera.h_offset = 0
 			camera.v_offset = 0
 		
-	speed.value = get_real_velocity().length() * 2
-	dashes_ui.text = "X".repeat(cur_dashes)
-	hp_ui.text = str(hp) + "/100"
+	move_and_slide()
 	
+	speed.value = get_real_velocity().length() * 2
+
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name != "slide" and anim_name != "hook":
 		animation_player.play("RESET")
