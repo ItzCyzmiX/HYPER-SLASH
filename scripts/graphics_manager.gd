@@ -1,4 +1,4 @@
-extends Control
+extends Node
 
 var current_preset := "mid"
 var current_window_size := "windowed"
