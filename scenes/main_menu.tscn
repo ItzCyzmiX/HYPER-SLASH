@@ -1,4 +1,4 @@
-[gd_scene load_steps=87 format=3 uid="uid://cbsuceaj86wsj"]
+[gd_scene format=3 uid="uid://cbsuceaj86wsj"]
 
 [ext_resource type="Script" uid="uid://bnm8fun1og7sy" path="res://scripts/main_menu.gd" id="1_w00eq"]
 [ext_resource type="FontFile" uid="uid://3e82qb88pgm0" path="res://assets/fonts/MajorMonoDisplay-Regular.ttf" id="2_k834r"]
@@ -333,15 +333,15 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("128_vqfhk")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 35.0
 }]
 
-[node name="main_menu" type="CanvasLayer"]
+[node name="main_menu" type="CanvasLayer" unique_id=617443724]
 script = ExtResource("1_w00eq")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="." unique_id=839954616]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -350,7 +350,7 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=135493727]
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
@@ -361,7 +361,7 @@ offset_bottom = 58.0
 grow_vertical = 2
 theme_override_constants/separation = 25
 
-[node name="play" type="Button" parent="VBoxContainer"]
+[node name="play" type="Button" parent="VBoxContainer" unique_id=667215604]
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 2
@@ -371,7 +371,7 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_rw6qo")
 text = "play"
 flat = true
 
-[node name="settings" type="Button" parent="VBoxContainer"]
+[node name="settings" type="Button" parent="VBoxContainer" unique_id=1797892052]
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 2
@@ -381,7 +381,7 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_rw6qo")
 text = "settings"
 flat = true
 
-[node name="quit" type="Button" parent="VBoxContainer"]
+[node name="quit" type="Button" parent="VBoxContainer" unique_id=1289920906]
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 2
@@ -391,7 +391,7 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_rw6qo")
 text = "quit"
 flat = true
 
-[node name="Control" type="Control" parent="."]
+[node name="Control" type="Control" parent="." unique_id=2107402103]
 layout_mode = 3
 anchors_preset = 6
 anchor_left = 1.0
@@ -403,12 +403,12 @@ offset_right = -337.0
 grow_horizontal = 0
 grow_vertical = 2
 
-[node name="logo" type="AnimatedSprite2D" parent="Control"]
+[node name="logo" type="AnimatedSprite2D" parent="Control" unique_id=1738565397]
 scale = Vector2(0.9, 0.8)
 sprite_frames = SubResource("SpriteFrames_7mmqq")
 frame_progress = 0.452409
 
-[node name="Transition" parent="." instance=ExtResource("84_rw6qo")]
+[node name="Transition" parent="." unique_id=2007421721 instance=ExtResource("84_rw6qo")]
 mouse_filter = 2
 
 [connection signal="mouse_entered" from="VBoxContainer/play" to="." method="_on_play_mouse_entered"]
