@@ -27,9 +27,7 @@ func _on_quality_list_item_selected(index: int) -> void:
 		GraphicsManager.set_preset("mid")
 	elif index == 2:
 		GraphicsManager.set_preset("high")
-		
-	print(GraphicsManager.current_preset)
-	
+
 func _on_screen_list_item_selected(index: int) -> void:
 	if index == 0:
 		GraphicsManager.set_window_size("windowed")

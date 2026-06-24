@@ -28,7 +28,7 @@ buses/default_bus_layout="res://defaults/default_bus_layout.tres"
 [autoload]
 
 Globals="*res://scripts/globals.gd"
-GraphicsManager="*res://scripts/graphics_manager.gd"
+GraphicsManager="*uid://drr5hkd4psk7c"
 
 [display]
 
