@@ -73,7 +73,7 @@ func set_window_size(size: String) -> void:
 	if size == "windowed":
 		DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_BORDERLESS, false)
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
-		Window.get_focused_window().size = default_size
+		DisplayServer.window_set_size(default_size)
 		
 		DisplayServer.window_set_position( 
 			(DisplayServer.screen_get_size() / 2) - 
