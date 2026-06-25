@@ -15,6 +15,7 @@ extends CharacterBody3D
 @onready var pause_vhs: TextureRect = $"../../../pause_filter"
 @onready var flash: ColorRect = $"../../../flash"
 @onready var crosshair: Sprite2D = $"../../../crosshair/cross"
+@onready var can_hook_crosshair: Sprite2D = $"../../../crosshair/can_hook"
 @onready var slide_queu_time: Timer = $slide_queu_time
 @onready var slide_areas: Node3D = $slide_areas
 
@@ -69,17 +70,17 @@ func _input(event: InputEvent) -> void:
 			AudioServer.remove_bus_effect(AudioServer.get_bus_index("Song"), 0)
 
 	if Globals.PAUSED: return
-	
+
 	if event is InputEventMouseMotion:
 		rotate_y(-deg_to_rad(event.relative.x * SENS))
 		head.rotate_x(-deg_to_rad(event.relative.y * SENS))
 		head.rotation.x = clamp(head.rotation.x, deg_to_rad(-80), deg_to_rad(80))
-	
+
 	if event.is_action_pressed("attack"):
 		if not is_blocking:
 
 			is_attacking = true
-			
+
 	if event.is_action_pressed("block"):
 
 		is_blocking = true
@@ -88,39 +89,42 @@ func _input(event: InputEvent) -> void:
 		if is_on_floor():
 			SPEED = SLIDE_SPEED
 			slide_collision.disabled = false
-			normal_collision.disabled = true 
-			
+			normal_collision.disabled = true
+
 			is_sliding = true
 			speedlines.visible = true
 
-			
+
 		else:
 			slide_queued= true
-			
+
 	if Input.is_action_just_released("slide") and is_sliding:
-		slide_collision.disabled = true 
-		normal_collision.disabled = false 
-	
+		slide_collision.disabled = true
+		normal_collision.disabled = false
+
 		SPEED = NORMAL_SPEED
 
 		is_sliding = false
 		speedlines.visible = false
 
 	if Input.is_action_pressed("jump") and (is_on_floor() or is_wall_sliding != "no"):
-		velocity.y = JUMP_VELOCITY + (JUMP_VELOCITY/2)*int(is_sliding) 
+		velocity.y = JUMP_VELOCITY + (JUMP_VELOCITY/2)*int(is_sliding)
 		if is_sliding:
-			slide_collision.disabled = true 
-			normal_collision.disabled = false 
-		
+			slide_collision.disabled = true
+			normal_collision.disabled = false
+
 			SPEED = NORMAL_SPEED
 
 			is_sliding = false
-		
+
 		if is_wall_sliding != "no":
+			var wall_normal = get_wall_normal()
+			velocity += wall_normal * 20.0 
+			velocity.y = JUMP_VELOCITY          
 			is_wall_sliding = "no"
 			SPEED = NORMAL_SPEED
 			speedlines.visible = false
-	
+
 	if !$HookController.is_hook_launched and is_moving and Input.is_action_just_pressed("dash") and cur_dashes > 0 and not is_sliding:
 		SPEED = DASH_SPEED
 		is_dashing = true
@@ -132,69 +136,42 @@ func _input(event: InputEvent) -> void:
 
 
 func _physics_process(delta: float) -> void:
-	
+
 	if Globals.PAUSED: return
 	is_moving = get_real_velocity().length() > 5
-	
+
 	if $Head/Camera3D/ray.is_colliding():
-		$"../../../crosshair/can_hook".scale = lerp($"../../../crosshair/can_hook".scale, Vector2(0.223, 0.223), 12.0 * delta) 
+		can_hook_crosshair.scale = lerp(can_hook_crosshair.scale, Vector2(0.223, 0.223), 12.0 * delta)
 	else:
-		$"../../../crosshair/can_hook".scale = lerp($"../../../crosshair/can_hook".scale, Vector2(0, 0), 12.0 * delta)
-	
-		
+		can_hook_crosshair.scale = lerp(can_hook_crosshair.scale, Vector2(0, 0), 12.0 * delta)
+
 	if not is_on_floor():
-		velocity += get_gravity() * delta 
+		velocity += get_gravity() * delta
 		var tween = create_tween()
 		tween.tween_property(camera, "v_offset", 0.1, 0.2).set_ease(Tween.EASE_OUT)
-		var i = 0
-		for area: Area3D in slide_areas.get_children():
-			var over_areas  = area.get_overlapping_areas()
-			if len(over_areas) == 0:
-				continue 
-			else:
-				i += 1
-			for over_area in area.get_overlapping_areas():
-				if over_area.name == "slide_area":
-					 
-					is_sliding = false
-					is_dashing = false
-					
-					if area.name == "slide_left":
-						camera.rotation.z = lerp(camera.rotation.z, deg_to_rad(20), 7.0 * delta)
-						is_wall_sliding = "left"
-					else:
-						camera.rotation.z = lerp(camera.rotation.z, deg_to_rad(-20), 7.0 * delta)
-						is_wall_sliding = "right"
-					
-					SPEED = WALL_SLIDE_SPEED
-					speedlines.visible = true
-		if i == 0:
-			is_wall_sliding = "no"
-			SPEED = NORMAL_SPEED
-			speedlines.visible = false
-	
-	
+		_get_wall_side(delta)
+
 	if is_wall_sliding == "no":
 		camera.rotation.z  = lerpf(camera.rotation.z, 0, 10.0 * delta)
 	else:
 		velocity.y = 0
-	
+
 	if is_on_floor():
 		if slide_queued and Input.is_action_pressed("slide"):
 			if not is_sliding:
 				SPEED = SLIDE_SPEED
 				slide_collision.disabled = false
-				normal_collision.disabled = true 
-				
+				normal_collision.disabled = true
+
 				is_sliding = true
 				speedlines.visible = true
 				slide_queued=false
 
 	if is_blocking:
-		is_dashing = false 
+		is_dashing = false
 		is_sliding = false
 		SPEED = BLOCK_SPEED
-	
+
 	if velocity.y < 0:
 		camera.v_offset = -0.05
 	elif velocity.y == 0:
@@ -203,15 +180,15 @@ func _physics_process(delta: float) -> void:
 
 	if is_sliding:
 		if !is_moving:
-			is_sliding = false  
+			is_sliding = false
 		else:
-			camera.fov = lerp(camera.fov, NORMAL_FOV - 10, 15.0 * delta)	
-			head.position.y = lerp(head.position.y, OG_HEAD_Y - 0.8, 15.0 * delta)	
+			camera.fov = lerp(camera.fov, NORMAL_FOV - 10, 15.0 * delta)
+			head.position.y = lerp(head.position.y, OG_HEAD_Y - 0.8, 15.0 * delta)
 			control_ui.scale = lerp(control_ui.scale, Vector2(0.95, 0.95), 10.0 * delta)
-	else:		
-		
-		camera.fov = lerp(camera.fov, NORMAL_FOV, 20.0 * delta)	
-		head.position.y = lerpf(head.position.y, OG_HEAD_Y, 20.0 * delta)	
+	else:
+
+		camera.fov = lerp(camera.fov, NORMAL_FOV, 20.0 * delta)
+		head.position.y = lerpf(head.position.y, OG_HEAD_Y, 20.0 * delta)
 		control_ui.scale = lerp(control_ui.scale, Vector2(1.0, 1.0), 20.0 * delta)
 
 
@@ -219,11 +196,11 @@ func _physics_process(delta: float) -> void:
 		if dash_timer.time_left == 0:
 			dash_timer.start()
 
-	if is_dashing:		
+	if is_dashing:
 		SPEED = lerp(SPEED, NORMAL_SPEED, 8.0 * delta)
 		camera.fov = lerp(camera.fov, NORMAL_FOV, delta - 0.3)
 		control_ui.scale = lerp(control_ui.scale, Vector2(1, 1),  delta - 0.4)
-	
+
 	# --- SMOOTH MOVEMENT / MOMENTUM CONSERVATION ---
 	var input_dir = Input.get_vector("left", "right", "forward", "backward")
 	var target_dir = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
@@ -245,7 +222,7 @@ func _physics_process(delta: float) -> void:
 			# Conserve the high speed (e.g. from a dash), but smoothly steer towards input
 			var steered_vel = direction * current_h_vel.length()
 			current_h_vel = current_h_vel.lerp(steered_vel, accel * delta)
-			
+
 			# Slowly bleed off the excess speed back down to the current SPEED cap
 			current_h_vel = current_h_vel.lerp(target_h_vel, speed_decay * delta)
 		else:
@@ -258,13 +235,13 @@ func _physics_process(delta: float) -> void:
 	velocity.z = current_h_vel.z if !is_blocking else 0
 
 	if position.y < -10 and !$HookController.is_hook_launched:
-		global_position = INIT_POS 
+		global_position = INIT_POS
 		velocity = Vector3.ZERO
-		
+
 		shake_time.wait_time = 0.1
 		SHAKE_INTENSITY = 2
 		shake_time.start()
-	
+
 	if shake_time.time_left > 0:
 		camera.h_offset = randf_range(-SHAKE_INTENSITY * 0.01, SHAKE_INTENSITY * 0.01)
 		camera.v_offset = randf_range(-SHAKE_INTENSITY * 0.01, SHAKE_INTENSITY * 0.01)
@@ -272,14 +249,14 @@ func _physics_process(delta: float) -> void:
 		if not direction:
 			camera.h_offset = 0
 			camera.v_offset = 0
-		
+
 	move_and_slide()
-	
+
 	speed.value = get_real_velocity().length() * 2
 	elapsed_time += delta
 	var seconds = int(elapsed_time) % 60
 	var minutes = int(elapsed_time) / 60
-	
+
 	timer_ui.text = "%02d:%02d" % [minutes, seconds]
 
 func _on_dash_refill_timer_timeout() -> void:
@@ -303,3 +280,31 @@ func _on_hook_controller_hook_launched() -> void:
 
 func _on_hook_controller_hook_detached() -> void:
 	SPEED = NORMAL_SPEED
+
+func _get_wall_side(delta: float) -> void:
+	var i = 0
+	for area: Area3D in slide_areas.get_children():
+		var over_areas  = area.get_overlapping_areas()
+		if len(over_areas) == 0:
+			continue
+		else:
+			i += 1
+		for over_area in area.get_overlapping_areas():
+			if over_area.name == "slide_area":
+
+				is_sliding = false
+				is_dashing = false
+
+				if area.name == "slide_left":
+					camera.rotation.z = lerp(camera.rotation.z, deg_to_rad(20), 7.0 * delta)
+					is_wall_sliding = "left"
+				else:
+					camera.rotation.z = lerp(camera.rotation.z, deg_to_rad(-20), 7.0 * delta)
+					is_wall_sliding = "right"
+
+				SPEED = WALL_SLIDE_SPEED
+				speedlines.visible = true
+	if i == 0:
+		is_wall_sliding = "no"
+		SPEED = NORMAL_SPEED
+		speedlines.visible = false
