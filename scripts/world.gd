@@ -10,10 +10,7 @@ func spawn_player() -> void:
 	players_container.add_child(player)
 	player.global_position = spawn_point.global_position
 	player.INIT_POS = spawn_point.global_position
-	$"../Container/VBoxContainer/VBoxContainer/check_trail".toggled.connect(player._on_check_trail_toggled)
-	$"../Container/VBoxContainer/VBoxContainer/HBoxContainer/trail_color_picker".color_changed.connect(player._on_trail_color_picker_color_changed)
-	$"../Container/VBoxContainer/VBoxContainer/HBoxContainer/sword_color_picker".color_changed.connect(player._on_sword_color_picker_color_changed)
-	
+
 func _ready() -> void:
 	var p = GraphicsManager.get_preset()
 	var env : Environment = $WorldEnvironment.environment

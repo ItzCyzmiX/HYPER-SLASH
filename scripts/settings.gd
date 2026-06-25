@@ -18,7 +18,6 @@ func _ready() -> void:
 	elif  GraphicsManager.get_cur_screen_size() == "fullscreen":
 		$VBoxContainer/screen/screen_list.select(1)
 
-
 func _on_quality_list_item_selected(index: int) -> void:
 	if index == 0:
 		GraphicsManager.set_preset("low")

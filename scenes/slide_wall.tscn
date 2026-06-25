@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://cofkw5yls6gt3"]
+
+[ext_resource type="Texture2D" uid="uid://ctficqmxak4fq" path="res://assets/textures/texture_01.png" id="1_p8wxw"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_efxa6"]
+albedo_texture = ExtResource("1_p8wxw")
+uv1_triplanar = true
+uv1_world_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_dg77c"]
+material = SubResource("StandardMaterial3D_efxa6")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4c57u"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_co7y6"]
+size = Vector3(0.79907227, 0.10253906, 1)
+
+[node name="StaticBody3D" type="StaticBody3D" unique_id=2087461004]
+transform = Transform3D(5, 0, 0, 0, 1, 0, 0, 0, 5, 0, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1687377254]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.19209e-07, 0.243505, 0.469591)
+mesh = SubResource("BoxMesh_dg77c")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=850323823]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.243094, 0.471803)
+shape = SubResource("BoxShape3D_4c57u")
+
+[node name="slide_area" type="Area3D" parent="." unique_id=462128695]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="slide_area" unique_id=623708672]
+transform = Transform3D(0.99999976, 0, 0, 0, 1, 0, 0, 0, 0.99999976, 0.0013427761, 0.8028562, 0.47146404)
+shape = SubResource("BoxShape3D_co7y6")
+debug_color = Color(0.9407847, 0.6026767, 1, 0.41960785)

@@ -1,26 +1,77 @@
-[gd_scene load_steps=2 format=3 uid="uid://bj54nvjtor2k3"]
+[gd_scene format=3 uid="uid://bj54nvjtor2k3"]
 
 [ext_resource type="PackedScene" uid="uid://cccf0e6fopq2r" path="res://scenes/platform.tscn" id="1_6eo5e"]
+[ext_resource type="PackedScene" uid="uid://cofkw5yls6gt3" path="res://scenes/slide_wall.tscn" id="2_gi7kc"]
+[ext_resource type="Texture2D" uid="uid://ctficqmxak4fq" path="res://assets/textures/texture_01.png" id="2_kewym"]
 
-[node name="stage" type="Node3D"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_efxa6"]
+albedo_texture = ExtResource("2_kewym")
+uv1_triplanar = true
+uv1_world_triplanar = true
 
-[node name="first_floor" parent="." instance=ExtResource("1_6eo5e")]
+[sub_resource type="BoxMesh" id="BoxMesh_dg77c"]
+material = SubResource("StandardMaterial3D_efxa6")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4c57u"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_co7y6"]
+size = Vector3(1, 0.22949219, 1)
+
+[node name="stage" type="Node3D" unique_id=1327352301]
+
+[node name="first_floor" parent="." unique_id=1003485755 instance=ExtResource("1_6eo5e")]
 transform = Transform3D(-49.2, 0, 0, 0, 1, 0, 0, 0, 66.528, 0, 0, 2.86518)
 
-[node name="platform2" parent="." instance=ExtResource("1_6eo5e")]
+[node name="platform2" parent="." unique_id=1259156887 instance=ExtResource("1_6eo5e")]
 transform = Transform3D(5, 0, 0, 0, 1, 0, 0, 0, 5, 0, 12, 78.8652)
 
-[node name="platform4" parent="." instance=ExtResource("1_6eo5e")]
+[node name="platform4" parent="." unique_id=91410475 instance=ExtResource("1_6eo5e")]
 transform = Transform3D(5, 0, 0, 0, 1, 0, 0, 0, 5, 0, 12, 107.865)
 
-[node name="platform6" parent="." instance=ExtResource("1_6eo5e")]
+[node name="platform6" parent="." unique_id=401653172 instance=ExtResource("1_6eo5e")]
 transform = Transform3D(5, 0, 0, 0, 0.866025, 2.5, 0, -0.5, 4.33013, 0, -2, 137.865)
 
-[node name="platform7" parent="." instance=ExtResource("1_6eo5e")]
+[node name="platform7" parent="." unique_id=754248595 instance=ExtResource("1_6eo5e")]
 transform = Transform3D(5, 0, 0, 0, 1, 0, 0, 0, 23.5991, 0, 0.327104, 142.415)
 
-[node name="platform9" parent="." instance=ExtResource("1_6eo5e")]
+[node name="platform9" parent="." unique_id=1488842130 instance=ExtResource("1_6eo5e")]
 transform = Transform3D(5, 0, 0, 0, 1, 0, 0, 0, 5, 0, 4, 182.865)
 
-[node name="platform10" parent="." instance=ExtResource("1_6eo5e")]
+[node name="platform10" parent="." unique_id=2143766992 instance=ExtResource("1_6eo5e")]
 transform = Transform3D(5, 0, 0, 0, 1, 0, 0, 0, 5, 0, 4, 211.865)
+
+[node name="slide_wall" type="StaticBody3D" parent="." unique_id=2087461004]
+transform = Transform3D(-3.0884604e-07, 0.99999994, 0, -7.0655737, -4.3711385e-08, 0, 0, 0, 31.926624, -7.9066114, 11, 227.68567)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="slide_wall" unique_id=1687377254]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.19209e-07, 0.243505, 0.469591)
+mesh = SubResource("BoxMesh_dg77c")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="slide_wall" unique_id=850323823]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.243094, 0.471803)
+shape = SubResource("BoxShape3D_4c57u")
+
+[node name="slide_area" type="Area3D" parent="slide_wall" unique_id=462128695]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="slide_wall/slide_area" unique_id=623708672]
+transform = Transform3D(0.99999976, 0, 0, 0, 1, 0, 0, 0, 0.99999976, 0, 0.86633277, 0.47146404)
+shape = SubResource("BoxShape3D_co7y6")
+debug_color = Color(0.9407847, 0.6026767, 1, 0.41960785)
+
+[node name="slide_wall2" parent="." unique_id=1332061335 instance=ExtResource("2_gi7kc")]
+transform = Transform3D(-3.0884604e-07, -0.99999994, 0, 7.0655737, -4.3711385e-08, 0, 0, 0, 31.926624, 7.808836, 11, 249.17929)
+
+[node name="slide_wall3" parent="." unique_id=2118259604 instance=ExtResource("2_gi7kc")]
+transform = Transform3D(-3.6703825e-14, -4.3711385e-08, -91.53036, -7.0655746, -4.371139e-08, 0, -3.08846e-07, 1, -4.000919e-06, 0.37733364, 7.6564875, 42.708782)
+
+[node name="slide_wall4" parent="." unique_id=1018000308 instance=ExtResource("2_gi7kc")]
+transform = Transform3D(-3.670382e-14, -4.3711385e-08, -91.53036, 7.0655746, -4.371139e-08, 3.4977156e-13, -3.0884613e-07, -1, 4.000919e-06, -23.622665, 7.6564875, 56.014233)
+
+[node name="platform13" parent="." unique_id=1223851963 instance=ExtResource("1_6eo5e")]
+transform = Transform3D(5, 0, 0, 0, 1, 0, 0, 0, 5, 0, 4, 295.52478)
+
+[node name="platform14" parent="." unique_id=919307466 instance=ExtResource("1_6eo5e")]
+transform = Transform3D(5, 0, 0, 0, 1, 0, 0, 0, 5, 0, 17.6012, 317.9995)
+
+[node name="platform15" parent="." unique_id=1147004378 instance=ExtResource("1_6eo5e")]
+transform = Transform3D(5, 0, 0, 0, 1, 0, 0, 0, 55.0911, 0, 4, 345.68903)
