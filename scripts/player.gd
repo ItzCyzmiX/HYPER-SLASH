@@ -18,7 +18,11 @@ extends CharacterBody3D
 @onready var can_hook_crosshair: Sprite2D = $"../../../crosshair/can_hook"
 @onready var slide_queu_time: Timer = $slide_queu_time
 @onready var slide_areas: Node3D = $slide_areas
+@onready var pause_menu = $"../../../pause_menu"
+@onready var hook_controller = $HookController 
+@onready var vision_ray = $Head/Camera3D/ray
 
+var fx = AudioEffectHighPassFilter.new()
 var is_wall_sliding = "no"
 var slide_queued= false
 var SHAKE_INTENSITY = 2
@@ -58,14 +62,14 @@ func _input(event: InputEvent) -> void:
 		if !Globals.PAUSED:
 			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 			pause_vhs.visible = true
-			$"../../../Container".visible = true
+			pause_menu.show()
 			Globals.PAUSED = true
-			var fx = AudioEffectHighPassFilter.new()
+			
 			AudioServer.add_bus_effect(AudioServer.get_bus_index("Song"), fx, 1)
 		else:
 			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 			pause_vhs.visible = false
-			$"../../../Container".visible = false
+			pause_menu.hide()
 			Globals.PAUSED = false
 			AudioServer.remove_bus_effect(AudioServer.get_bus_index("Song"), 0)
 
@@ -85,7 +89,7 @@ func _input(event: InputEvent) -> void:
 
 		is_blocking = true
 
-	if !$HookController.is_hook_launched and is_moving and Input.is_action_just_pressed("slide") and not is_dashing:
+	if !hook_controller.is_hook_launched and is_moving and Input.is_action_just_pressed("slide") and not is_dashing:
 		if is_on_floor():
 			SPEED = SLIDE_SPEED
 			slide_collision.disabled = false
@@ -125,7 +129,7 @@ func _input(event: InputEvent) -> void:
 			SPEED = NORMAL_SPEED
 			speedlines.visible = false
 
-	if !$HookController.is_hook_launched and is_moving and Input.is_action_just_pressed("dash") and cur_dashes > 0 and not is_sliding:
+	if !hook_controller.is_hook_launched and is_moving and Input.is_action_just_pressed("dash") and cur_dashes > 0 and not is_sliding:
 		SPEED = DASH_SPEED
 		is_dashing = true
 		cur_dashes -= 1
@@ -140,7 +144,7 @@ func _physics_process(delta: float) -> void:
 	if Globals.PAUSED: return
 	is_moving = get_real_velocity().length() > 5
 
-	if $Head/Camera3D/ray.is_colliding():
+	if vision_ray.is_colliding():
 		can_hook_crosshair.scale = lerp(can_hook_crosshair.scale, Vector2(0.223, 0.223), 12.0 * delta)
 	else:
 		can_hook_crosshair.scale = lerp(can_hook_crosshair.scale, Vector2(0, 0), 12.0 * delta)
@@ -234,10 +238,11 @@ func _physics_process(delta: float) -> void:
 	velocity.x =  current_h_vel.x if !is_blocking else 0
 	velocity.z = current_h_vel.z if !is_blocking else 0
 
-	if position.y < -10 and !$HookController.is_hook_launched:
+	if position.y < -20 and !hook_controller.is_hook_launched:
 		global_position = INIT_POS
 		velocity = Vector3.ZERO
-
+		cur_dashes = MAX_DASHES
+		
 		shake_time.wait_time = 0.1
 		SHAKE_INTENSITY = 2
 		shake_time.start()
@@ -274,7 +279,7 @@ func _on_hitstop_time_timeout() -> void:
 	flash.color = Color('ffffff00')
 
 func _on_hook_controller_hook_launched() -> void:
-	if $Head/Camera3D/ray.is_colliding():
+	if vision_ray.is_colliding():
 
 		SPEED = HOOKING_SPEED
 
@@ -289,7 +294,7 @@ func _get_wall_side(delta: float) -> void:
 			continue
 		else:
 			i += 1
-		for over_area in area.get_overlapping_areas():
+		for over_area in over_areas:
 			if over_area.name == "slide_area":
 
 				is_sliding = false

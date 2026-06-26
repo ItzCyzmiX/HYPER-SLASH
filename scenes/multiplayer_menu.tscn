@@ -1,0 +1,120 @@
+[gd_scene format=3 uid="uid://lvwubq76cu83"]
+
+[ext_resource type="Script" uid="uid://us0vti5ty4ri" path="res://scenes/multiplayer_menu.gd" id="1_3lc0t"]
+[ext_resource type="FontFile" uid="uid://3e82qb88pgm0" path="res://assets/fonts/MajorMonoDisplay-Regular.ttf" id="1_xp4nc"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_co7y6"]
+
+[node name="MultiplayerMenu" type="CanvasLayer" unique_id=453371287]
+script = ExtResource("1_3lc0t")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=839954616]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="container" type="VBoxContainer" parent="." unique_id=135493727]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 4.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 60
+
+[node name="create_container" type="VBoxContainer" parent="container" unique_id=970013105]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="sep" type="VBoxContainer" parent="container/create_container" unique_id=25888969]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Label" type="Label" parent="container/create_container/sep" unique_id=1106688560]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("1_xp4nc")
+text = "generated ip:"
+
+[node name="ip" type="RichTextLabel" parent="container/create_container/sep" unique_id=1730333893]
+custom_minimum_size = Vector2(500, 60)
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/normal_font = ExtResource("1_xp4nc")
+text = "..."
+
+[node name="create" type="Button" parent="container/create_container" unique_id=363557869]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("1_xp4nc")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_co7y6")
+text = "create"
+
+[node name="join_container" type="VBoxContainer" parent="container" unique_id=833866190]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="sep" type="VBoxContainer" parent="container/join_container" unique_id=1701149812]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Label" type="Label" parent="container/join_container/sep" unique_id=1965716545]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("1_xp4nc")
+text = "server ip:"
+
+[node name="ip" type="TextEdit" parent="container/join_container/sep" unique_id=998940760]
+custom_minimum_size = Vector2(500, 60)
+clip_contents = true
+layout_mode = 2
+theme_override_colors/font_placeholder_color = Color(0.8745098, 0.8745098, 0.8745098, 0.654902)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/caret_width = 3
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("1_xp4nc")
+placeholder_text = "128.27.0.000"
+caret_type = 1
+caret_blink = true
+
+[node name="join" type="Button" parent="container/join_container" unique_id=2107511069]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("1_xp4nc")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_co7y6")
+disabled = true
+text = "join"
+
+[node name="mainmenu" type="Button" parent="container" unique_id=1042751258]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("1_xp4nc")
+text = "main menu"
+
+[node name="test_mode" type="Button" parent="container" unique_id=1124657815]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("1_xp4nc")
+text = "test mode"
+
+[connection signal="pressed" from="container/create_container/create" to="." method="_on_create_pressed"]
+[connection signal="text_changed" from="container/join_container/sep/ip" to="." method="_on_ip_text_changed"]
+[connection signal="pressed" from="container/join_container/join" to="." method="_on_join_pressed"]
+[connection signal="pressed" from="container/mainmenu" to="." method="_on_mainmenu_pressed"]
+[connection signal="pressed" from="container/test_mode" to="." method="_on_test_mode_pressed"]

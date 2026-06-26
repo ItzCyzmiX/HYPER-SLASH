@@ -1,0 +1,89 @@
+[gd_scene format=3 uid="uid://cs2dqre6010e2"]
+
+[ext_resource type="Script" uid="uid://clvkbk38lyvhl" path="res://scripts/pause_container.gd" id="1_myx47"]
+[ext_resource type="FontFile" uid="uid://3e82qb88pgm0" path="res://assets/fonts/MajorMonoDisplay-Regular.ttf" id="2_kukqi"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2o6r5"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k3n1d"]
+bg_color = Color(0, 0, 0, 0.458824)
+
+[node name="Container" type="CenterContainer" unique_id=378248267]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_myx47")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=776122060]
+layout_mode = 2
+theme_override_constants/separation = 50
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer" unique_id=760100337]
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/VBoxContainer" unique_id=1710990400]
+layout_mode = 2
+theme_override_constants/separation = 300
+
+[node name="trail_label" type="RichTextLabel" parent="VBoxContainer/VBoxContainer/HBoxContainer2" unique_id=804117127]
+texture_filter = 5
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_stretch_ratio = 1.51
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/line_separation = -8
+theme_override_constants/outline_size = 1
+theme_override_fonts/normal_font = ExtResource("2_kukqi")
+text = "trail color
+___________"
+scroll_active = false
+autowrap_mode = 0
+
+[node name="sword_label" type="RichTextLabel" parent="VBoxContainer/VBoxContainer/HBoxContainer2" unique_id=1403482159]
+texture_filter = 5
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/line_separation = -8
+theme_override_constants/outline_size = 1
+theme_override_fonts/normal_font = ExtResource("2_kukqi")
+text = "sword color
+___________"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer" unique_id=1968418302]
+layout_mode = 2
+theme_override_constants/separation = 200
+
+[node name="trail_color_picker" type="ColorPicker" parent="VBoxContainer/VBoxContainer/HBoxContainer" unique_id=1126509595]
+layout_mode = 2
+edit_alpha = false
+can_add_swatches = false
+sampler_visible = false
+color_modes_visible = false
+sliders_visible = false
+presets_visible = false
+
+[node name="sword_color_picker" type="ColorPicker" parent="VBoxContainer/VBoxContainer/HBoxContainer" unique_id=1595703789]
+layout_mode = 2
+alignment = 2
+edit_alpha = false
+can_add_swatches = false
+sampler_visible = false
+color_modes_visible = false
+sliders_visible = false
+presets_visible = false
+
+[node name="quit" type="Button" parent="VBoxContainer" unique_id=1951726168]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("2_kukqi")
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = SubResource("StyleBoxEmpty_2o6r5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_k3n1d")
+text = "quit to main menu"
+
+[connection signal="pressed" from="VBoxContainer/quit" to="." method="_on_quit_pressed"]

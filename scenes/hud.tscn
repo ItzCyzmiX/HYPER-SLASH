@@ -1,0 +1,69 @@
+[gd_scene format=3 uid="uid://bmvkshwuioh1e"]
+
+[ext_resource type="FontFile" uid="uid://db0gd5csnvc2k" path="res://assets/fonts/healzone-by-thUg-inc.ttf" id="1_5ysmq"]
+[ext_resource type="Texture2D" uid="uid://nbhkmoxchyf4" path="res://assets/hud/Asset 11.png" id="2_6fi6k"]
+[ext_resource type="Texture2D" uid="uid://cbbtcfq8sx84i" path="res://assets/hud/Asset 10.png" id="3_uo2fv"]
+
+[node name="GUI" type="Control" unique_id=1779529743]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(640, 360)
+mouse_filter = 2
+
+[node name="TIMER" type="RichTextLabel" parent="." unique_id=548118480]
+texture_filter = 5
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -40.434265
+offset_right = 40.434265
+offset_bottom = 39.0
+grow_horizontal = 2
+scale = Vector2(1.88, 1.44)
+pivot_offset = Vector2(42.12213, -11.366453)
+theme_override_fonts/normal_font = ExtResource("1_5ysmq")
+text = "00:00"
+fit_content = true
+scroll_active = false
+scroll_following = true
+
+[node name="DASHES" type="RichTextLabel" parent="." unique_id=1972658109]
+texture_filter = 5
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = -143.947
+offset_top = -257.87
+offset_right = -118.947
+offset_bottom = -150.87
+grow_vertical = 0
+rotation = 3.14159
+scale = Vector2(2.6, 1.991)
+pivot_offset = Vector2(71.9733, 75.4348)
+theme_override_fonts/normal_font = ExtResource("1_5ysmq")
+text = "XXX"
+fit_content = true
+scroll_active = false
+horizontal_alignment = 1
+
+[node name="SPEED" type="TextureProgressBar" parent="." unique_id=513627482]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.46
+anchor_top = 0.3
+anchor_right = 1.0
+anchor_bottom = 0.3
+offset_right = 1370.0
+offset_bottom = 158.0
+rotation = -1.5708
+scale = Vector2(0.3, 0.3)
+pivot_offset = Vector2(650, 160)
+texture_under = ExtResource("2_6fi6k")
+texture_progress = ExtResource("3_uo2fv")
+texture_progress_offset = Vector2(60, 25)

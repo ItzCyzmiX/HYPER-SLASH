@@ -50,6 +50,7 @@ enabled=PackedStringArray("res://addons/godotresourcecleaner/plugin.cfg", "res:/
 [global_group]
 
 hittable=""
+slidable=""
 
 [input]
 

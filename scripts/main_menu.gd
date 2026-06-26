@@ -1,14 +1,9 @@
 extends CanvasLayer
-@onready var transition: Control = $Transition
-
 
 func _ready() -> void:
 	$Control/logo.play("default")
-	transition.set_animation('fade-in')
-	transition.connect("anim_finished", switch_scene)
 	
 func _on_quit_mouse_entered() -> void:
-	
 	$VBoxContainer/quit.text = "QUIT"
 
 func _on_quit_mouse_exited() -> void:
@@ -24,15 +19,11 @@ func _on_play_mouse_exited() -> void:
 	$VBoxContainer/play.text = "play"
 
 func _on_play_pressed() -> void:
-	transition.play()
+	get_tree().change_scene_to_file("res://scenes/multiplayer_menu.tscn")
 	
-func switch_scene():
-	get_tree().change_scene_to_file("res://scenes/world.tscn")
-
 
 func _on_settings_mouse_entered() -> void:
 	$VBoxContainer/settings.text = "SETTINGS"
-
 
 func _on_settings_mouse_exited() -> void:
 	$VBoxContainer/settings.text = "settings"

@@ -59,9 +59,6 @@ fov = 90.3
 transform = Transform3D(1, 0, 0, 0, -7.99562e-07, -1, 0, 18.2919, -4.37114e-08, 0, 0, -0.699867)
 debug_shape_custom_color = Color(1, 1, 1, 1)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Head" unique_id=274821829]
-root_node = NodePath("")
-
 [node name="dash_refill_timer" type="Timer" parent="." unique_id=1098169058]
 one_shot = true
 
