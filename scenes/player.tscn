@@ -103,3 +103,7 @@ debug_color = Color(0.8333426, 0.0013574797, 0.9392709, 0.41960785)
 [connection signal="timeout" from="dash_refill_timer" to="." method="_on_dash_refill_timer_timeout"]
 [connection signal="timeout" from="dash_time" to="." method="_on_dash_time_timeout"]
 [connection signal="timeout" from="hitstop_time" to="." method="_on_hitstop_time_timeout"]
+[connection signal="area_entered" from="slide_areas/slide_right" to="." method="_on_slide_right_area_entered"]
+[connection signal="area_exited" from="slide_areas/slide_right" to="." method="_on_slide_right_area_exited"]
+[connection signal="area_entered" from="slide_areas/slide_left" to="." method="_on_slide_left_area_entered"]
+[connection signal="area_exited" from="slide_areas/slide_left" to="." method="_on_slide_left_area_exited"]

@@ -38,6 +38,12 @@ transform = Transform3D(-3.0884604e-07, -0.99999994, 0, 7.0655737, -4.3711385e-0
 [node name="slide_wall3" parent="." unique_id=2087461004 instance=ExtResource("2_gi7kc")]
 transform = Transform3D(3.5762787e-07, 1.0000001, 0, -7.0655723, -7.4505806e-08, 0, 0, 0, 31.926624, -5.8371964, 11, 227.68265)
 
+[node name="slide_wall4" parent="." unique_id=1538790689 instance=ExtResource("2_gi7kc")]
+transform = Transform3D(-3.6703825e-14, 4.3711378e-08, -73.45324, 7.0655746, -4.371138e-08, 0, -3.08846e-07, -0.9999999, -3.2107432e-06, -56.18929, 11, 48.62819)
+
+[node name="slide_wall5" parent="." unique_id=1303242480 instance=ExtResource("2_gi7kc")]
+transform = Transform3D(-9.093827e-14, -4.371139e-08, -73.45324, -7.065572, -7.450579e-08, 0, 3.5762793e-07, 1.0000001, -3.2107432e-06, -6.732193, 11, 34.982162)
+
 [node name="platform13" parent="." unique_id=1223851963 instance=ExtResource("1_6eo5e")]
 transform = Transform3D(5, 0, 0, 0, 1, 0, 0, 0, 5, 0, 4, 295.52478)
 

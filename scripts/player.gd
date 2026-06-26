@@ -19,7 +19,7 @@ extends CharacterBody3D
 @onready var slide_queu_time: Timer = $slide_queu_time
 @onready var slide_areas: Node3D = $slide_areas
 @onready var pause_menu = $"../../../pause_menu"
-@onready var hook_controller = $HookController 
+@onready var hook_controller = $HookController
 @onready var vision_ray = $Head/Camera3D/ray
 
 var fx = AudioEffectHighPassFilter.new()
@@ -35,7 +35,7 @@ const WALL_SLIDE_SPEED = 40.0
 const NORMAL_SPEED = 15.0
 const BLOCK_SPEED = 3.0
 const SLIDE_SPEED = 40.0
-const DASH_SPEED = 120.0
+const DASH_SPEED = 130.0
 const HOOKING_SPEED = 20.0
 const JUMP_VELOCITY = 12
 const SENS = 0.3
@@ -64,7 +64,7 @@ func _input(event: InputEvent) -> void:
 			pause_vhs.visible = true
 			pause_menu.show()
 			Globals.PAUSED = true
-			
+
 			AudioServer.add_bus_effect(AudioServer.get_bus_index("Song"), fx, 1)
 		else:
 			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -98,7 +98,6 @@ func _input(event: InputEvent) -> void:
 			is_sliding = true
 			speedlines.visible = true
 
-
 		else:
 			slide_queued= true
 
@@ -118,13 +117,13 @@ func _input(event: InputEvent) -> void:
 			normal_collision.disabled = false
 
 			SPEED = NORMAL_SPEED
-
 			is_sliding = false
+			speedlines.visible = false
 
 		if is_wall_sliding != "no":
 			var wall_normal = get_wall_normal()
-			velocity += wall_normal * 20.0 
-			velocity.y = JUMP_VELOCITY          
+			velocity += wall_normal * 20.0
+			velocity.y = JUMP_VELOCITY
 			is_wall_sliding = "no"
 			SPEED = NORMAL_SPEED
 			speedlines.visible = false
@@ -142,6 +141,7 @@ func _input(event: InputEvent) -> void:
 func _physics_process(delta: float) -> void:
 
 	if Globals.PAUSED: return
+	
 	is_moving = get_real_velocity().length() > 5
 
 	if vision_ray.is_colliding():
@@ -235,14 +235,14 @@ func _physics_process(delta: float) -> void:
 		# Apply friction to slide to a halt
 		current_h_vel = current_h_vel.lerp(Vector3.ZERO, friction * delta)
 
-	velocity.x =  current_h_vel.x if !is_blocking else 0
-	velocity.z = current_h_vel.z if !is_blocking else 0
+	velocity.x =  current_h_vel.x 
+	velocity.z = current_h_vel.z
 
 	if position.y < -20 and !hook_controller.is_hook_launched:
 		global_position = INIT_POS
 		velocity = Vector3.ZERO
 		cur_dashes = MAX_DASHES
-		
+
 		shake_time.wait_time = 0.1
 		SHAKE_INTENSITY = 2
 		shake_time.start()
