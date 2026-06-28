@@ -21,6 +21,7 @@ extends CharacterBody3D
 @onready var pause_menu = $"../../../pause_menu"
 @onready var hook_controller = $HookController
 @onready var vision_ray = $Head/Camera3D/ray
+@onready var body: MeshInstance3D = $body
 
 var fx = AudioEffectHighPassFilter.new()
 var is_wall_sliding = "no"
@@ -51,6 +52,8 @@ var OG_HEAD_Y = 0
 var is_moving = false
 var INIT_POS = Vector3.ZERO
 var elapsed_time = 0.0
+const NORMAL_BODY_HEIGHT = 1.96
+const SLIDE_BODY_HEIGHT = 1.255
 
 func _ready() -> void:
 	crosshair.visible = true
@@ -94,7 +97,8 @@ func _input(event: InputEvent) -> void:
 			SPEED = SLIDE_SPEED
 			slide_collision.disabled = false
 			normal_collision.disabled = true
-
+			body.mesh.height = SLIDE_BODY_HEIGHT
+			
 			is_sliding = true
 			speedlines.visible = true
 
@@ -104,7 +108,8 @@ func _input(event: InputEvent) -> void:
 	if Input.is_action_just_released("slide") and is_sliding:
 		slide_collision.disabled = true
 		normal_collision.disabled = false
-
+		body.mesh.height = NORMAL_BODY_HEIGHT
+		
 		SPEED = NORMAL_SPEED
 
 		is_sliding = false
@@ -115,7 +120,9 @@ func _input(event: InputEvent) -> void:
 		if is_sliding:
 			slide_collision.disabled = true
 			normal_collision.disabled = false
-
+			
+			body.mesh.height = SLIDE_BODY_HEIGHT
+			
 			SPEED = NORMAL_SPEED
 			is_sliding = false
 			speedlines.visible = false
@@ -166,7 +173,9 @@ func _physics_process(delta: float) -> void:
 				SPEED = SLIDE_SPEED
 				slide_collision.disabled = false
 				normal_collision.disabled = true
-
+				
+				body.mesh.height = SLIDE_BODY_HEIGHT
+				
 				is_sliding = true
 				speedlines.visible = true
 				slide_queued=false
@@ -279,12 +288,13 @@ func _on_hitstop_time_timeout() -> void:
 	flash.color = Color('ffffff00')
 
 func _on_hook_controller_hook_launched() -> void:
-	if vision_ray.is_colliding():
+	
+	SPEED = HOOKING_SPEED
 
-		SPEED = HOOKING_SPEED
 
 func _on_hook_controller_hook_detached() -> void:
 	SPEED = NORMAL_SPEED
+	
 
 func _get_wall_side(delta: float) -> void:
 	var i = 0

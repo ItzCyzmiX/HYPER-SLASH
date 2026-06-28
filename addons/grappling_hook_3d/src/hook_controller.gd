@@ -62,8 +62,10 @@ func _launch_hook() -> void:
 		return
 	
 	is_hook_launched = true
+	
 	hook_attached.emit()
-
+	
+	
 	var body: Node3D = hook_raycast.get_collider()
 	
 	hook_target_node = Marker3D.new()
@@ -77,7 +79,6 @@ func _launch_hook() -> void:
 	
 	_hook_model = hook_scene.instantiate()
 	add_child(_hook_model)
-
 
 ## Disables the hook, frees the target node and the hook model, emits required signals.
 func _retract_hook() -> void:

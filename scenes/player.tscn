@@ -8,11 +8,9 @@
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1bvp3"]
 height = 1.27662
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_n7ghd"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_h2yge"]
-material = SubResource("ShaderMaterial_n7ghd")
-size = Vector3(0.3, 0.3, 2)
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_co7y6"]
+radius = 0.49560547
+height = 1.9602051
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_co7y6"]
 size = Vector3(0.39263916, 2.0162354, 0.78759766)
@@ -27,7 +25,7 @@ player_body = NodePath("..")
 launch_action_name = "grapple"
 retract_action_name = "grapple"
 pull_speed = 200.0
-hook_source = NodePath("../Head/hand2/rope_start")
+hook_source = NodePath("../Head/rope_start")
 rope_stiffness = 0.2
 metadata/_custom_type_script = "uid://dryea4veaeb28"
 
@@ -40,16 +38,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4048, 0)
 shape = SubResource("CapsuleShape3D_1bvp3")
 disabled = true
 
+[node name="body" type="MeshInstance3D" parent="." unique_id=614409278]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7732286, 0)
+mesh = SubResource("CapsuleMesh_co7y6")
+
 [node name="Head" type="Node3D" parent="." unique_id=328784293]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0777035, 2.7514, -0.405224)
 
-[node name="hand2" type="MeshInstance3D" parent="Head" unique_id=1854755559]
-transform = Transform3D(0.84675694, 0.53041065, 0.040828563, -0.52893597, 0.8476272, -0.04188915, -0.05682583, 0.01387423, 0.9982879, -0.853804, -0.946091, 0.653437)
-mesh = SubResource("BoxMesh_h2yge")
-skeleton = NodePath("../..")
-
-[node name="rope_start" type="Node3D" parent="Head/hand2" unique_id=765244317]
-transform = Transform3D(0.928958, -0.324648, -0.177879, 0.312298, 0.945292, -0.094304, 0.198763, 0.032053, 0.979523, -0.0195297, 0.030622, -0.933794)
+[node name="rope_start" type="Node3D" parent="Head" unique_id=765244317]
+transform = Transform3D(0.96036303, 0.2278037, -0.1606476, -0.23497303, 0.9716306, -0.026879426, 0.14996678, 0.063561715, 0.9866457, -0.43426552, -0.2696855, -0.8578352)
 
 [node name="Camera3D" type="Camera3D" parent="Head" unique_id=1340164081]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.4901161e-07)

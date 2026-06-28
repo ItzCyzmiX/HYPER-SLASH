@@ -2,7 +2,7 @@ extends Node3D
 
 @onready var players_container: Node3D = $"players"
 @onready var spawn_points = $stage/spawn_points
-@onready var transition_pack: = preload("res://scenes/transition.tscn")
+
 var cur_id = 0
 
 func spawn_player() -> void:
@@ -25,9 +25,5 @@ func _ready() -> void:
 		if p.has("sdfgi"):
 			env.sdfgi_enabled = p["sdfgi"]
 	
-	var transition = transition_pack.instantiate()
-	add_child(transition)
-	transition.set_animation('fade-out')
 	spawn_player()
-	transition.play()
 	$"../song".play()

@@ -129,6 +129,6 @@ color = Color(1, 1, 1, 0.482353)
 
 [node name="song" type="AudioStreamPlayer" parent="." unique_id=1117061497]
 stream = ExtResource("12_il2jm")
-volume_db = -4.5
+volume_db = -7.0
 bus = &"Song"
 parameters/looping = true
