@@ -31,10 +31,10 @@ jobs:
           mkdir -p build/windows
           godot --headless --export-release "Windows Desktop" build/windows/hyper_slash.exe
 
-      # - name: Export Project (Mac)
-      #   run: |
-      #     mkdir -p build/mac
-      #     godot --headless --export-release "macOS" build/mac/hyper_slash.zip
+      - name: Export Project (Mac)
+        run: |
+          mkdir -p build/mac
+          godot --headless --export-release "macOS" build/mac/hyper_slash.zip
 
       - name: Upload Windows Artifact
         uses: actions/upload-artifact@v4
