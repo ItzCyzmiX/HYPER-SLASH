@@ -15,6 +15,14 @@ height = 1.9602051
 [sub_resource type="BoxShape3D" id="BoxShape3D_co7y6"]
 size = Vector3(0.39263916, 2.0162354, 0.78759766)
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_g2els"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+
 [node name="player" type="CharacterBody3D" unique_id=1246223767]
 script = ExtResource("1_1jxqw")
 
@@ -94,6 +102,9 @@ transform = Transform3D(0.97006714, 0, 0, 0, 0.6163914, 0, 0, 0, 0.6913899, 0, 0
 transform = Transform3D(0.9999987, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, 0.64625627, 1.865992, 0.044677734)
 shape = SubResource("BoxShape3D_co7y6")
 debug_color = Color(0.8333426, 0.0013574797, 0.9392709, 0.41960785)
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1404463761]
+replication_config = SubResource("SceneReplicationConfig_g2els")
 
 [connection signal="hook_detached" from="HookController" to="." method="_on_hook_controller_hook_detached"]
 [connection signal="hook_launched" from="HookController" to="." method="_on_hook_controller_hook_launched"]

@@ -5,8 +5,9 @@ extends Node3D
 
 var cur_id = 0
 
-func spawn_player() -> void:
+func spawn_player(id):
 	var player = preload("res://scenes/player.tscn").instantiate()
+	player.name = str(id)
 	players_container.add_child(player)
 	var spawn_point = spawn_points.get_child(cur_id)
 	player.global_position = spawn_point.global_position
@@ -14,6 +15,8 @@ func spawn_player() -> void:
 	cur_id += 1
 	
 func _ready() -> void:
+	multiplayer.peer_connected.connect(spawn_player)
+	
 	var p = GraphicsManager.get_preset()
 	var env : Environment = $WorldEnvironment.environment
 	
@@ -24,6 +27,6 @@ func _ready() -> void:
 		env.glow_enabled  = p["glow"]
 		if p.has("sdfgi"):
 			env.sdfgi_enabled = p["sdfgi"]
-	
-	spawn_player()
+
 	$"../song".play()
+	print(players_container.get_child_count())

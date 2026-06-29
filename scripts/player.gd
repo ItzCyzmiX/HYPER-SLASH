@@ -55,7 +55,11 @@ var elapsed_time = 0.0
 const NORMAL_BODY_HEIGHT = 1.96
 const SLIDE_BODY_HEIGHT = 1.255
 
+func _enter_tree() -> void:
+	set_multiplayer_authority(name.to_int())
+
 func _ready() -> void:
+	camera.current = is_multiplayer_authority()
 	crosshair.visible = true
 	OG_HEAD_Y = float(head.position.y)
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -77,6 +81,7 @@ func _input(event: InputEvent) -> void:
 			AudioServer.remove_bus_effect(AudioServer.get_bus_index("Song"), 0)
 
 	if Globals.PAUSED: return
+	if !is_multiplayer_authority(): return 
 
 	if event is InputEventMouseMotion:
 		rotate_y(-deg_to_rad(event.relative.x * SENS))
@@ -148,6 +153,7 @@ func _input(event: InputEvent) -> void:
 func _physics_process(delta: float) -> void:
 
 	if Globals.PAUSED: return
+	if !is_multiplayer_authority(): return 
 	
 	is_moving = get_real_velocity().length() > 5
 

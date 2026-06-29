@@ -132,3 +132,7 @@ stream = ExtResource("12_il2jm")
 volume_db = -7.0
 bus = &"Song"
 parameters/looping = true
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=1369597839]
+_spawnable_scenes = PackedStringArray("uid://cq8ohth4n74jn")
+spawn_path = NodePath("../env/players")

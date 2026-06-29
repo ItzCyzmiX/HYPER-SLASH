@@ -8,6 +8,7 @@ func _ready() -> void:
 
 
 func _on_quit_pressed() -> void:
+	
 	Globals.IN_GAME = false 
 	Globals.PAUSED = false
 	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")

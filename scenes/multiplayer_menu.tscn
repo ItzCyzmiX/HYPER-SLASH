@@ -96,7 +96,6 @@ theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 1
 theme_override_fonts/font = ExtResource("1_xp4nc")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_co7y6")
-disabled = true
 text = "join"
 
 [node name="test_mode" type="Button" parent="container" unique_id=1124657815]

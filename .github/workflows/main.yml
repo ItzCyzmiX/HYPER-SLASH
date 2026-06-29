@@ -1,49 +1,36 @@
-name: Export Godot Game
+name: "build hyperslash"
+on: push
 
-on:
-  push:
-    branches: [main]
+env:
+  GODOT_VERSION: 4.7
+  EXPORT_NAME: hyper-slash
+  PROJECT_PATH: "."
 
 jobs:
-  export:
-    name: Export for Windows and MacOS
-    runs-on: ubuntu-latest
-    env:
-      ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
+  export-windows:
+    name: Windows Export
+    runs-on: ubuntu-24.04
+    container:
+      image: barichello/godot-ci:mono-4.7
     steps:
-      - uses: actions/checkout@v6
-
-      - uses: chickensoft-games/setup-godot@v2
-        name: Setup Godot
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
-          # Version must include major, minor, and patch, and be >= 4.0.0
-          # Pre-release label is optional.
-          version:
-            4.4.1 # also valid: 4.0.0.rc1 or 4.0.0 or "global.json", etc
-            # Use .NET-enabled version of Godot (the default is also true).
-          use-dotnet:
-            true
-            # Include the Godot Export Templates (the default is false).
-          include-templates: true
-
-      - name: Export Project (Windows)
+          lfs: true
+      - name: Setup
         run: |
-          mkdir -p build/windows
-          godot --headless --export-release "Windows Desktop" build/windows/hyper_slash.exe
-
-      # - name: Export Project (Mac)
-      #   run: |
-      #     mkdir -p build/mac
-      #     godot --headless --export-release "macOS" build/mac/hyper_slash.zip
-
-      - name: Upload Windows Artifact
+          mkdir -v -p ~/.local/share/godot/export_templates/
+          mkdir -v -p ~/.config/
+          mv /root/.config/godot ~/.config/godot
+          mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable.mono ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable.mono
+      - name: Windows Build
+        run: |
+          mkdir -v -p build/windows
+          EXPORT_DIR="$(readlink -f build)"
+          cd $PROJECT_PATH
+          godot --headless --verbose --export-release "Windows Desktop" "$EXPORT_DIR/windows/$EXPORT_NAME.exe"
+      - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: Windows Build
-          path: build/windows/
-
-      # - name: Upload MacOS Artifact
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: Mac Build
-      #     path: build/mac/
+          name: windows
+          path: build/windows
