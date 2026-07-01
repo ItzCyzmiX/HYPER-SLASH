@@ -16,7 +16,7 @@ const PRESETS := {
 		"glow"            : false,
 		"dof"             : false,
 		"sdfgi"           : false,
-		"scale_3d"        : 0.75,
+		"scale_3d"        : 0.5,
 		"scale_mode"      : Viewport.SCALING_3D_MODE_BILINEAR,
 		"max_fps"         : 0,  # 0 = uncapped
 	},

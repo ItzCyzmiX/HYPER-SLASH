@@ -1,9 +1,7 @@
 [gd_scene format=3 uid="uid://cofkw5yls6gt3"]
 
-[ext_resource type="Texture2D" uid="uid://ctficqmxak4fq" path="res://assets/textures/texture_01.png" id="1_p8wxw"]
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_efxa6"]
-albedo_texture = ExtResource("1_p8wxw")
+shading_mode = 0
 uv1_triplanar = true
 uv1_world_triplanar = true
 

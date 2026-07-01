@@ -1,0 +1,54 @@
+[gd_scene format=3 uid="uid://gmkshe2odleh"]
+
+[ext_resource type="Shader" uid="uid://cdqt70k87jsp6" path="res://shaders/holo.gdshader" id="1_7waic"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_614tr"]
+noise_type = 4
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_7waic"]
+noise = SubResource("FastNoiseLite_614tr")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_p4fk1"]
+render_priority = 0
+shader = ExtResource("1_7waic")
+shader_parameter/primary_color = Color(1, 0, 0, 1)
+shader_parameter/secondary_color = Color(1, 0, 0, 1)
+shader_parameter/density = 1.0
+shader_parameter/effect_strength = 2.0
+shader_parameter/wipe_scale = 3.0
+shader_parameter/wipe_speed = 0.5
+shader_parameter/wipe_blend = 0.7
+shader_parameter/signal_scale = 40.0
+shader_parameter/signal_speed = 1.0
+shader_parameter/signal_random_scale = 0.3
+shader_parameter/signal_blend = 0.999999977648
+shader_parameter/noise_texture = SubResource("NoiseTexture2D_7waic")
+shader_parameter/noise_distort_amount = 0.1999999955296
+shader_parameter/noise_amount = 1.0
+shader_parameter/grain_amount = 0.4
+shader_parameter/displacement_amount = 1.0
+shader_parameter/flicker_amount = 0.3
+shader_parameter/flicker_speed = 10.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_efxa6"]
+next_pass = SubResource("ShaderMaterial_p4fk1")
+shading_mode = 0
+albedo_color = Color(0, 0, 0.34901962, 1)
+uv1_triplanar = true
+uv1_world_triplanar = true
+disable_receive_shadows = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_dg77c"]
+material = SubResource("StandardMaterial3D_efxa6")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4c57u"]
+
+[node name="StaticBody3D" type="StaticBody3D" unique_id=1934004010]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1899771472]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.19209e-07, 0.243505, 0.469591)
+mesh = SubResource("BoxMesh_dg77c")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1603675919]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.243094, 0.471803)
+shape = SubResource("BoxShape3D_4c57u")

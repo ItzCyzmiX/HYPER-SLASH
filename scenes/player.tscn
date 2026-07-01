@@ -8,20 +8,8 @@
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1bvp3"]
 height = 1.27662
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_co7y6"]
-radius = 0.49560547
-height = 1.9602051
-
 [sub_resource type="BoxShape3D" id="BoxShape3D_co7y6"]
 size = Vector3(0.39263916, 2.0162354, 0.78759766)
-
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_g2els"]
-properties/0/path = NodePath(".:position")
-properties/0/spawn = true
-properties/0/replication_mode = 1
-properties/1/path = NodePath(".:rotation")
-properties/1/spawn = true
-properties/1/replication_mode = 1
 
 [node name="player" type="CharacterBody3D" unique_id=1246223767]
 script = ExtResource("1_1jxqw")
@@ -46,10 +34,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4048, 0)
 shape = SubResource("CapsuleShape3D_1bvp3")
 disabled = true
 
-[node name="body" type="MeshInstance3D" parent="." unique_id=614409278]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7732286, 0)
-mesh = SubResource("CapsuleMesh_co7y6")
-
 [node name="Head" type="Node3D" parent="." unique_id=328784293]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0777035, 2.7514, -0.405224)
 
@@ -58,6 +42,7 @@ transform = Transform3D(0.96036303, 0.2278037, -0.1606476, -0.23497303, 0.971630
 
 [node name="Camera3D" type="Camera3D" parent="Head" unique_id=1340164081]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.4901161e-07)
+current = true
 fov = 90.3
 
 [node name="ray" type="RayCast3D" parent="Head/Camera3D" unique_id=1179796863]
@@ -102,9 +87,6 @@ transform = Transform3D(0.97006714, 0, 0, 0, 0.6163914, 0, 0, 0, 0.6913899, 0, 0
 transform = Transform3D(0.9999987, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, 0.64625627, 1.865992, 0.044677734)
 shape = SubResource("BoxShape3D_co7y6")
 debug_color = Color(0.8333426, 0.0013574797, 0.9392709, 0.41960785)
-
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1404463761]
-replication_config = SubResource("SceneReplicationConfig_g2els")
 
 [connection signal="hook_detached" from="HookController" to="." method="_on_hook_controller_hook_detached"]
 [connection signal="hook_launched" from="HookController" to="." method="_on_hook_controller_hook_launched"]

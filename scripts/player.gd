@@ -21,8 +21,9 @@ extends CharacterBody3D
 @onready var pause_menu = $"../../../pause_menu"
 @onready var hook_controller = $HookController
 @onready var vision_ray = $Head/Camera3D/ray
-@onready var body: MeshInstance3D = $body
+@onready var chroma: ColorRect =  $"../../../chroma"
 
+var rgb_chroma = 0
 var fx = AudioEffectHighPassFilter.new()
 var is_wall_sliding = "no"
 var slide_queued= false
@@ -55,13 +56,10 @@ var elapsed_time = 0.0
 const NORMAL_BODY_HEIGHT = 1.96
 const SLIDE_BODY_HEIGHT = 1.255
 
-func _enter_tree() -> void:
-	set_multiplayer_authority(name.to_int())
-
 func _ready() -> void:
-	camera.current = is_multiplayer_authority()
 	crosshair.visible = true
 	OG_HEAD_Y = float(head.position.y)
+	rgb_chroma = float(chroma.material.get_shader_parameter('fade'))
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 func _input(event: InputEvent) -> void:
@@ -70,18 +68,18 @@ func _input(event: InputEvent) -> void:
 			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 			pause_vhs.visible = true
 			pause_menu.show()
+			$"../../../overlay".show()
 			Globals.PAUSED = true
-
 			AudioServer.add_bus_effect(AudioServer.get_bus_index("Song"), fx, 1)
 		else:
 			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 			pause_vhs.visible = false
 			pause_menu.hide()
+			$"../../../overlay".hide()
 			Globals.PAUSED = false
 			AudioServer.remove_bus_effect(AudioServer.get_bus_index("Song"), 0)
 
 	if Globals.PAUSED: return
-	if !is_multiplayer_authority(): return 
 
 	if event is InputEventMouseMotion:
 		rotate_y(-deg_to_rad(event.relative.x * SENS))
@@ -102,7 +100,7 @@ func _input(event: InputEvent) -> void:
 			SPEED = SLIDE_SPEED
 			slide_collision.disabled = false
 			normal_collision.disabled = true
-			body.mesh.height = SLIDE_BODY_HEIGHT
+			
 			
 			is_sliding = true
 			speedlines.visible = true
@@ -113,7 +111,7 @@ func _input(event: InputEvent) -> void:
 	if Input.is_action_just_released("slide") and is_sliding:
 		slide_collision.disabled = true
 		normal_collision.disabled = false
-		body.mesh.height = NORMAL_BODY_HEIGHT
+
 		
 		SPEED = NORMAL_SPEED
 
@@ -126,7 +124,7 @@ func _input(event: InputEvent) -> void:
 			slide_collision.disabled = true
 			normal_collision.disabled = false
 			
-			body.mesh.height = SLIDE_BODY_HEIGHT
+
 			
 			SPEED = NORMAL_SPEED
 			is_sliding = false
@@ -153,7 +151,6 @@ func _input(event: InputEvent) -> void:
 func _physics_process(delta: float) -> void:
 
 	if Globals.PAUSED: return
-	if !is_multiplayer_authority(): return 
 	
 	is_moving = get_real_velocity().length() > 5
 
@@ -179,9 +176,7 @@ func _physics_process(delta: float) -> void:
 				SPEED = SLIDE_SPEED
 				slide_collision.disabled = false
 				normal_collision.disabled = true
-				
-				body.mesh.height = SLIDE_BODY_HEIGHT
-				
+					
 				is_sliding = true
 				speedlines.visible = true
 				slide_queued=false
@@ -278,6 +273,12 @@ func _physics_process(delta: float) -> void:
 	var minutes = int(elapsed_time) / 60
 
 	timer_ui.text = "%02d:%02d" % [minutes, seconds]
+	
+	rgb_chroma = lerp(rgb_chroma,  100 - get_real_velocity().length() * 4, 7.0*delta)
+	
+	rgb_chroma = clampf(rgb_chroma, 0, 100)
+	
+	chroma.material.set_shader_parameter("fade", rgb_chroma)
 
 func _on_dash_refill_timer_timeout() -> void:
 	if cur_dashes < MAX_DASHES:
@@ -294,13 +295,11 @@ func _on_hitstop_time_timeout() -> void:
 	flash.color = Color('ffffff00')
 
 func _on_hook_controller_hook_launched() -> void:
-	
 	SPEED = HOOKING_SPEED
 
 
 func _on_hook_controller_hook_detached() -> void:
 	SPEED = NORMAL_SPEED
-	
 
 func _get_wall_side(delta: float) -> void:
 	var i = 0

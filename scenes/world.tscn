@@ -2,29 +2,24 @@
 
 [ext_resource type="Script" uid="uid://m1103wwypse" path="res://scripts/world.gd" id="1_k3n1d"]
 [ext_resource type="PackedScene" uid="uid://bj54nvjtor2k3" path="res://scenes/stage.tscn" id="2_k3n1d"]
-[ext_resource type="Texture2D" uid="uid://bexk3cl5f0tut" path="res://assets/skybox/Gods-and-Idols-2012-04-11-21-41-43-84.jpg" id="3_70uel"]
 [ext_resource type="PackedScene" uid="uid://bmvkshwuioh1e" path="res://scenes/hud.tscn" id="4_7r4gi"]
+[ext_resource type="Shader" uid="uid://y77dtxf1cyt0" path="res://shaders/chroma.gdshader" id="7_atsx2"]
 [ext_resource type="Shader" uid="uid://dosqha2thsvk2" path="res://shaders/lines.gdshader" id="7_ikiii"]
 [ext_resource type="Shader" uid="uid://bkm3nk7w8hl0k" path="res://shaders/crt.gdshader" id="8_cbp6q"]
 [ext_resource type="PackedScene" uid="uid://cs2dqre6010e2" path="res://scenes/pause_menu.tscn" id="8_w7kh3"]
 [ext_resource type="Texture2D" uid="uid://clgk5gc3h47hl" path="res://assets/hud/Elements-01.png" id="9_26xuy"]
 [ext_resource type="AudioStream" uid="uid://b6esqeanb5s2u" path="res://music/moment.mp3" id="12_il2jm"]
 
-[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_k3n1d"]
-panorama = ExtResource("3_70uel")
-filter = false
-energy_multiplier = 0.7
-
-[sub_resource type="Sky" id="Sky_2o6r5"]
-sky_material = SubResource("PanoramaSkyMaterial_k3n1d")
-
 [sub_resource type="Environment" id="Environment_7mycd"]
-background_mode = 2
-sky = SubResource("Sky_2o6r5")
-ambient_light_source = 1
-ambient_light_color = Color(0.566092, 1.76881e-06, 3.36915e-07, 1)
+background_mode = 1
+background_color = Color(1, 0, 0.16862746, 1)
+ambient_light_color = Color(1, 1, 1, 1)
 glow_enabled = true
 glow_intensity = 1.15
+fog_light_color = Color(0, 0, 0, 1)
+adjustment_brightness = 1.11
+adjustment_contrast = 1.055
+adjustment_saturation = 1.05
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_5vw27"]
 
@@ -53,6 +48,15 @@ shader_parameter/vinnette_outer_radius = 1.0
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_ycdy4"]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_atsx2"]
+shader = ExtResource("7_atsx2")
+shader_parameter/r_displacement = Vector2(3, 0)
+shader_parameter/g_displacement = Vector2(0, 0)
+shader_parameter/b_displacement = Vector2(-3, 0)
+shader_parameter/height = 0.60000000894072
+shader_parameter/width = 0.5
+shader_parameter/fade = 0.3
+
 [node name="world" type="Node3D" unique_id=1943139699]
 
 [node name="env" type="Node3D" parent="." unique_id=1911495576]
@@ -66,7 +70,7 @@ script = ExtResource("1_k3n1d")
 environment = SubResource("Environment_7mycd")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="env" unique_id=1607379840]
-transform = Transform3D(1, 0, 0, 0, -0.0463045, 0.998927, 0, -0.998927, -0.0463045, 0, 9.15519, 0)
+transform = Transform3D(1, 0, 0, 0, -0.04630452, 0.9989274, 0, -0.9989274, -0.04630452, 0, 144.93723, 144.31638)
 
 [node name="GUI" parent="." unique_id=1779529743 instance=ExtResource("4_7r4gi")]
 
@@ -115,6 +119,23 @@ texture = ExtResource("9_26xuy")
 region_enabled = true
 region_rect = Rect2(3752, 832, 184, 184)
 
+[node name="chroma" type="ColorRect" parent="." unique_id=2082019289]
+material = SubResource("ShaderMaterial_atsx2")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="overlay" type="ColorRect" parent="." unique_id=1800036932]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.3137255)
+
 [node name="flash" type="ColorRect" parent="." unique_id=902875273]
 visible = false
 anchors_preset = 15
@@ -126,13 +147,10 @@ mouse_filter = 2
 color = Color(1, 1, 1, 0.482353)
 
 [node name="pause_menu" parent="." unique_id=378248267 instance=ExtResource("8_w7kh3")]
+visible = false
 
 [node name="song" type="AudioStreamPlayer" parent="." unique_id=1117061497]
 stream = ExtResource("12_il2jm")
 volume_db = -7.0
 bus = &"Song"
 parameters/looping = true
-
-[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=1369597839]
-_spawnable_scenes = PackedStringArray("uid://cq8ohth4n74jn")
-spawn_path = NodePath("../env/players")
